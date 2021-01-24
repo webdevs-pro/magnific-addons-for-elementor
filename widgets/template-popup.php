@@ -1,15 +1,15 @@
 <?php
 namespace MagnificAddons;
 
-use Elementor\Widget_Base;
-use Elementor\Controls_Manager;
-use Elementor\Group_Control_Typography;
-use Elementor\Core\Base\Document;
+use \Elementor\Widget_Base;
+use \Elementor\Controls_Manager;
+use \Elementor\Group_Control_Typography;
+use \Elementor\Core\Base\Document;
 use ElementorPro\Modules\QueryControl\Module as QueryControlModule;
-// use Elementor\Group_Control_Border;
-use Elementor\Scheme_Typography;
-// use Elementor\Group_Control_Text_Shadow;
-// use Elementor\Group_Control_Box_Shadow;
+// use \Elementor\Group_Control_Border;
+use \Elementor\Core\Schemes\Typography;
+// use \Elementor\Group_Control_Text_Shadow;
+// use \Elementor\Group_Control_Box_Shadow;
 
 
 
@@ -113,18 +113,6 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'classes' => 'mae-type-switcher'
 				]
 			);
-			// $this->add_control(
-			// 	'preview',
-			// 	[
-			// 		'label' => __( 'Preview', 'magnific-addons' ),
-			// 		'type' => \Elementor\Controls_Manager::SWITCHER,
-			// 		'label_on' => __( 'On', 'your-plugin' ),
-			// 		'label_off' => __( 'Off', 'your-plugin' ),
-			// 		'return_value' => 'on',
-			// 		'default' => 'off',
-			// 		'render_type' => 'ui'
-			// 	]
-			// );
 			$this->add_control(
 				'switcher_styles',
 				[
@@ -164,6 +152,25 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 			]
 		);
 			$this->add_control(
+				'icon_type',
+				[
+					'label' => __( 'Icon Type', 'magnific-addons' ),
+					'type' => Controls_Manager::CHOOSE,
+					'options' => [
+						'icon'    => [
+							'title' => __( 'Icon', 'magnific-addons' ),
+							'icon' => 'eicon-star',
+						],
+						'image' => [
+							'title' => __( 'Image', 'magnific-addons' ),
+							'icon' => 'eicon-image-bold',
+						],
+					],
+					'default' => 'icon',
+					'toggle' => false,
+				]
+			);	
+			$this->add_control(
 				'icon',
 				[
 					'label' => __( 'Icon', 'magnific-addons' ),
@@ -174,6 +181,9 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 						'library' => 'solid',
 					],
 					'skin' => 'inline',
+					'condition' => [
+						'icon_type' => 'icon',
+					]
 				]
 			);
 			$this->add_control(
@@ -187,8 +197,47 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 						'library' => 'solid',
 					],
 					'skin' => 'inline',
+					'condition' => [
+						'icon_type' => 'icon',
+					]
 				]
 			);
+			$this->add_control(
+				'image',
+				[
+					'label' => __( 'Icon', 'magnific-addons' ),
+					'label_block' => false,
+					'type' => \Elementor\Controls_Manager::MEDIA,
+					'default' => [
+						'url' => \Elementor\Utils::get_placeholder_image_src(),
+					],
+					'skin' => 'inline',
+					'dynamic' => [
+						'active' => true,
+					],
+					'condition' => [
+						'icon_type' => 'image',
+					]
+				]
+			);
+			$this->add_control(
+				'active_image',
+				[
+					'label' => __( 'Active Icon', 'magnific-addons' ),
+					'label_block' => false,
+					'type' => \Elementor\Controls_Manager::MEDIA,
+					'default' => [
+						'url' => \Elementor\Utils::get_placeholder_image_src(),
+					],
+					'skin' => 'inline',
+					'dynamic' => [
+						'active' => true,
+					],
+					'condition' => [
+						'icon_type' => 'image',
+					]
+				]
+			);			
 			$this->add_responsive_control(
 				'icon_align',
 				[
@@ -286,6 +335,9 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'type' => \Elementor\Controls_Manager::TEXT,
 					'default' => __( 'Click here', 'magnific-addons' ),
 					'placeholder' => __( 'Click here', 'magnific-addons' ),
+					'dynamic' => [
+						'active' => true,
+					],
 				]
 			);
 			$this->add_control(
@@ -294,8 +346,8 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'label' => __( 'Title Color', 'magnific-addons' ),
 					'type' => \Elementor\Controls_Manager::COLOR,
 					'scheme' => [
-						'type' => \Elementor\Scheme_Color::get_type(),
-						'value' => \Elementor\Scheme_Color::COLOR_1,
+						'type' => \Elementor\Core\Schemes\Color::get_type(),
+						'value' => \Elementor\Core\Schemes\Color::COLOR_1,
 					],
 					'selectors' => [
 						'{{WRAPPER}} .mae-toggle-button' => 'color: {{VALUE}}',
@@ -307,7 +359,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 				[
 					'name' => 'title_typography',
 					'label' => __( 'Typography', 'magnific-addons' ),
-					'scheme' => Scheme_Typography::TYPOGRAPHY_1,
+					'scheme' => \Elementor\Core\Schemes\Typography::TYPOGRAPHY_1,
 					'selector' => '{{WRAPPER}} .mae-toggle-button',
 				]
 			);			
@@ -334,8 +386,8 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'label' => __( 'Background Color', 'magnific-addons' ),
 					'type' => \Elementor\Controls_Manager::COLOR,
 					'scheme' => [
-						'type' => \Elementor\Scheme_Color::get_type(),
-						'value' => \Elementor\Scheme_Color::COLOR_1,
+						'type' => \Elementor\Core\Schemes\Color::get_type(),
+						'value' => \Elementor\Core\Schemes\Color::COLOR_1,
 					],
 					'selectors' => [
 						'{{WRAPPER}} .mae-toggle-button' => 'background-color: {{VALUE}}',
@@ -407,7 +459,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 							'label' => 'Border Width',
 						],
 						'color' => [
-							'default' => \Elementor\Scheme_Color::COLOR_1,
+							'default' => \Elementor\Core\Schemes\Color::COLOR_1,
 							'label' => 'Border Color',
 						],
 					],
@@ -478,7 +530,10 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'default' => 'auto',
 					'options' => [
 						'auto'  => __( 'Auto', 'magnific-addons' ),
-						'full' => __( 'Fullwidth', 'magnific-addons' ),
+						'full' => __( 'Page', 'magnific-addons' ),
+						'section' => __( 'Section', 'magnific-addons' ),
+						'column' => __( 'Column', 'magnific-addons' ),
+						'selector' => __( 'Custom Selector', 'magnific-addons' ),
 						'custom' => __( 'Custom', 'magnific-addons' ),
 					],
 					'frontend_available' => true,
@@ -512,7 +567,22 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 						'content_width_type' => 'custom'
 					]
 				]
-			);							
+			);
+			$this->add_control(
+				'content_width_selector',
+				[
+					'label' => __( 'Selector', 'magnific-addons' ),
+					'label_block' => true,
+					'show_label' => false,
+					'type' => \Elementor\Controls_Manager::TEXT,
+					'placeholder' => __( '.selector-class', 'magnific-addons' ),
+					'frontend_available' => true,
+
+					'condition' => [
+						'content_width_type' => ['selector']
+					]
+				]
+			);				
 			$this->add_control(
 				'content_align',
 				[
@@ -531,6 +601,9 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'prefix_class' => 'mae-content-align-',
 					'default' => 'left',
 					'toggle' => false,
+					'condition' => [
+						'content_width_type' => ['custom', 'auto']
+					]
 				]
 			);		
 			$this->add_control(
@@ -540,7 +613,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'type' => \Elementor\Controls_Manager::COLOR,
 					'default' => '#fff',
 					'selectors' => [
-						'{{WRAPPER}} .mae-toggle-content' => 'background-color: {{VALUE}}',
+						'{{WRAPPER}} .mae-toggle-content .elementor' => 'background-color: {{VALUE}}',
 					],
 				]
 			);
@@ -551,7 +624,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'type' => Controls_Manager::DIMENSIONS,
 					'size_units' => [ 'px' ],
 					'selectors' => [
-						'{{WRAPPER}} .mae-toggle-content' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+						'{{WRAPPER}} .mae-toggle-content .elementor' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 					],
 					'separator' => 'before',
 				]
@@ -563,7 +636,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'type' => Controls_Manager::DIMENSIONS,
 					'size_units' => [ 'px' ],
 					'selectors' => [
-						'{{WRAPPER}} .mae-toggle-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+						'{{WRAPPER}} .mae-toggle-content .elementor' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 					],
 				]
 			);
@@ -572,7 +645,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 				[
 					'name' => 'content_border',
 					'label' => __( 'Border', 'magnific-addons' ),
-					'selector' => '{{WRAPPER}} .mae-toggle-content',
+					'selector' => '{{WRAPPER}} .mae-toggle-content .elementor',
 					'separator' => 'before',
 					'fields_options' => [
 						'width' => [
@@ -591,7 +664,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'type' => Controls_Manager::DIMENSIONS,
 					'size_units' => [ 'px' ],
 					'selectors' => [
-						'{{WRAPPER}} .mae-toggle-content' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+						'{{WRAPPER}} .mae-toggle-content .elementor' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 					],
 				]
 			);
@@ -600,7 +673,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 				[
 					'name' => 'content_box_shadow',
 					'label' => __( 'Box Shadow', 'magnific-addons' ),
-					'selector' => '{{WRAPPER}} .mae-toggle-content',
+					'selector' => '{{WRAPPER}} .mae-toggle-content .elementor',
 				]
 			);
 
@@ -620,8 +693,8 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					],
 					'separator' => 'before',
 					'selectors' => [
-						'{{WRAPPER}} .mae-toggle-content' => 'animation: {{VALUE}}Out {{content_animation_duration.VALUE}}ms forwards;',
-						'{{WRAPPER}} .mae-toggle-content.active' => 'animation: {{VALUE}}In {{content_animation_duration.VALUE}}ms forwards;',
+						'{{WRAPPER}} .mae-toggle-content' => 'animation: {{content_animation_duration.VALUE}}ms {{VALUE}}Out;',
+						'{{WRAPPER}} .mae-toggle-content.active' => 'animation: {{content_animation_duration.VALUE}}ms {{VALUE}}In;',
 					],
 				]
 			);	
@@ -702,8 +775,18 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 		<div class="mae-toggle-button" role="button">
 
 			<span class="button-icon">
-				<?php \Elementor\Icons_Manager::render_icon( $settings['icon'], [ 'aria-hidden' => 'true', 'class' => 'normal' ] ) ?>
-				<?php \Elementor\Icons_Manager::render_icon( $settings['active_icon'], [ 'aria-hidden' => 'true', 'class' => 'active' ] ) ?>
+
+				<?php 
+					if($settings['icon_type'] == 'icon') {
+						\Elementor\Icons_Manager::render_icon( $settings['icon'], [ 'aria-hidden' => 'true', 'class' => 'normal' ] );
+						\Elementor\Icons_Manager::render_icon( $settings['active_icon'], [ 'aria-hidden' => 'true', 'class' => 'active' ] );
+					}
+					if($settings['icon_type'] == 'image') {
+						echo '<img src="' . $settings['image']['url'] . '" class="normal">';
+						echo '<img src="' . $settings['active_image']['url'] . '" class="active">';
+					}
+				
+				?>
 			</span>
 			<span class="button-spacer"></span>
 			<span class="button-title">

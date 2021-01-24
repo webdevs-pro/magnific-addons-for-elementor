@@ -2,8 +2,8 @@
 namespace MagnificAddons;
 
 
-use Elementor\Core\Responsive\Responsive;
-use Elementor\Core\DynamicTags\Dynamic_CSS;
+use \Elementor\Core\Responsive\Responsive;
+use \Elementor\Core\DynamicTags\Dynamic_CSS;
 
 
 class MAE_Post_CSS {

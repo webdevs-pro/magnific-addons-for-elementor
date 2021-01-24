@@ -132,7 +132,7 @@ function mae_cv_tax_term_compare($condition) {
 	// ARCHIVE PAGE
 	if (is_object($queried_object) && get_class($queried_object) == 'WP_Term') {
 
-		error_log( "queried_object\n" . print_r($queried_object, true) . "\n" );
+		// error_log( "queried_object\n" . print_r($queried_object, true) . "\n" );
 
 		// IS
 		if($condition['mae_cv_item_tax_operator'] == 'is') {

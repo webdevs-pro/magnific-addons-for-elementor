@@ -4,8 +4,8 @@ namespace MagnificAddons;
 
 defined('ABSPATH') || die();
 
-use Elementor\Controls_Manager;
-// use Elementor\Element_Column;
+use \Elementor\Controls_Manager;
+// use \Elementor\Element_Column;
 
 class Aee_Columns_Custom_Width_For_Elementor {
 

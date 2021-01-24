@@ -1,15 +1,15 @@
 <?php
 namespace MagnificAddons;
 
-use Elementor\Widget_Base;
-use Elementor\Controls_Manager;
-use Elementor\Group_Control_Typography;
-use Elementor\Core\Base\Document;
+use \Elementor\Widget_Base;
+use \Elementor\Controls_Manager;
+use \Elementor\Group_Control_Typography;
+use \Elementor\Core\Base\Document;
 use ElementorPro\Modules\QueryControl\Module as QueryControlModule;
-// use Elementor\Group_Control_Border;
-use Elementor\Scheme_Typography;
-// use Elementor\Group_Control_Text_Shadow;
-// use Elementor\Group_Control_Box_Shadow;
+// use \Elementor\Group_Control_Border;
+use \Elementor\Core\Schemes\Typography;
+// use \Elementor\Group_Control_Text_Shadow;
+// use \Elementor\Group_Control_Box_Shadow;
 
 
 
@@ -168,8 +168,8 @@ class Aew_Cart_Popup_Widget extends Widget_Base {
 					'label' => __( 'Title Color', 'magnific-addons' ),
 					'type' => \Elementor\Controls_Manager::COLOR,
 					'scheme' => [
-						'type' => \Elementor\Scheme_Color::get_type(),
-						'value' => \Elementor\Scheme_Color::COLOR_1,
+						'type' => \Elementor\Core\Schemes\Color::get_type(),
+						'value' => \Elementor\Core\Schemes\Color::COLOR_1,
 					],
 					'selectors' => [
 						'{{WRAPPER}} .mae-toggle-button' => 'color: {{VALUE}}',
@@ -181,7 +181,7 @@ class Aew_Cart_Popup_Widget extends Widget_Base {
 				[
 					'name' => 'title_typography',
 					'label' => __( 'Typography', 'magnific-addons' ),
-					'scheme' => Scheme_Typography::TYPOGRAPHY_1,
+					'scheme' => \Elementor\Core\Schemes\Typography::TYPOGRAPHY_1,
 					'selector' => '{{WRAPPER}} .mae-toggle-button',
 				]
 			);			
@@ -208,8 +208,8 @@ class Aew_Cart_Popup_Widget extends Widget_Base {
 					'label' => __( 'Background Color', 'magnific-addons' ),
 					'type' => \Elementor\Controls_Manager::COLOR,
 					'scheme' => [
-						'type' => \Elementor\Scheme_Color::get_type(),
-						'value' => \Elementor\Scheme_Color::COLOR_1,
+						'type' => \Elementor\Core\Schemes\Color::get_type(),
+						'value' => \Elementor\Core\Schemes\Color::COLOR_1,
 					],
 					'selectors' => [
 						'{{WRAPPER}} .mae-toggle-button' => 'background-color: {{VALUE}}',
@@ -281,7 +281,7 @@ class Aew_Cart_Popup_Widget extends Widget_Base {
 							'label' => 'Border Width',
 						],
 						'color' => [
-							'default' => \Elementor\Scheme_Color::COLOR_1,
+							'default' => \Elementor\Core\Schemes\Color::COLOR_1,
 							'label' => 'Border Color',
 						],
 					],

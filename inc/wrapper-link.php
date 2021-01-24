@@ -1,8 +1,8 @@
 <?php
 namespace MagnificAddons;
 
-use Elementor\Controls_Manager;
-use Elementor\Element_Base;
+use \Elementor\Controls_Manager;
+use \Elementor\Element_Base;
 
 defined('ABSPATH') || die();
 

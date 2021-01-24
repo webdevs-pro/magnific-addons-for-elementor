@@ -3,7 +3,6 @@ jQuery(document).ready(function ($) {
 
 
 
-
 	var priview_el = document.getElementById('elementor-preview-responsive-wrapper');
 
 	var edited_element_id;

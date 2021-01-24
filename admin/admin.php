@@ -236,7 +236,6 @@ function mae_initialize_main_options() {
 				'enable_posts_swiper_widget'   => '1',
 				'enable_template_popup'   => '1',
 				'enable_cart_dropdown'   => '1',
-				'enable_lang_dropdown'   => '1',
 			),
 
 		);
@@ -293,10 +292,6 @@ function mae_initialize_main_options() {
 		}
 		if (!isset($options['enabled_widgets']['enable_cart_dropdown'])) {
 			$options['enabled_widgets']['enable_cart_dropdown'] = '1';
-			$updated = true;
-		}
-		if (!isset($options['enabled_widgets']['enable_lang_dropdown'])) {
-			$options['enabled_widgets']['enable_lang_dropdown'] = '1';
 			$updated = true;
 		}
 
@@ -447,12 +442,6 @@ function mae_enabled_widgets_callback($args) {
 		</label>
 		<br>
 
-		<label style="display: block">
-			<input type="hidden" name="mae_settings[enabled_widgets][enable_lang_dropdown]" value="0" />
-			<input type="checkbox" name="mae_settings[enabled_widgets][enable_lang_dropdown]" value="1"<?php checked(get_option('mae_settings')['enabled_widgets']['enable_lang_dropdown']); ?> />
-			<?php echo __( 'Lang Dropdown', 'magnific-addons' ); ?>
-		</label>
-		<br>
 	<?php
 }
 

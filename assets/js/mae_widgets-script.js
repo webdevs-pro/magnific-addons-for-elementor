@@ -1223,7 +1223,7 @@
       //    var self = this;
       //    setTimeout(function () {
       //       self.hideContent();
-      //    }, 500);
+      //    }, 300);
       // }
 
       documentClick(e) {
@@ -1235,15 +1235,14 @@
       showContent() {
          this.elements.$toggle.addClass('active');
          this.elements.$content.addClass('active');
-         if(this.getElementSettings('content_width_type') == 'full') {
-            this.makeContentFullwidth();
-         }
+         this.setContentWidth();
+
          $(document).on('click.'+this.getID(), this.documentClick.bind(this));
       }
 
       windowResize() {
-         if(this.getElementSettings('content_width_type') == 'full' && this.elements.$content.hasClass('active')) {
-            this.makeContentFullwidth();
+         if(this.elements.$content.hasClass('active')) {
+            this.setContentWidth();
          }
       }
 
@@ -1261,15 +1260,44 @@
          this.elements.$content.find('img[loading="lazy"]').removeAttr('loading');
       }
 
-      makeContentFullwidth() {
+      setContentWidth() {
+
+         var type = this.getElementSettings('content_width_type');
+
+         switch (type) {
+            case 'full':
+               var container = $('body');
+               break;
+            case 'section':
+               var container = this.$element.closest('section').children('.elementor-container');
+               break;
+            case 'column':
+               var container = this.$element.closest('.elementor-column');
+               break;
+            case 'selector':
+               var selector = this.getElementSettings('content_width_selector');
+               var container = $(selector);
+               break;
+            default:
+               return;
+         }
+
+         // clear styles
          this.elements.$content.css({
             'left': '',
             'width': ''
          });
+
+         var toggle_left = this.elements.$toggle.offset().left;
+         var container_left = $(container).offset().left;
+         var left = toggle_left - container_left;
+
+         // set styles
          this.elements.$content.css({
-            'left': - this.elements.$content.offset().left,
-            'width': $(window).width()
+            'left': - left,
+            'width': $(container).width()
          });
+
       }
 
       addEditHandler() {
@@ -1297,158 +1325,6 @@
    } );
 
 
-
-
-
-
-   // class MAELangPopup extends elementorModules.frontend.handlers.Base {
-
-   //    getDefaultSettings() {
-   //       return {
-   //          selectors: {
-   //             toggle: '.mae-toggle-button',
-   //             content: '.mae-toggle-content',
-   //          },
-   //       };
-   //    }
-
-   //    getDefaultElements() {
-   //       var selectors = this.getSettings( 'selectors' );
-   //       return {
-   //          $toggle: this.$element.find( selectors.toggle ).first(),
-   //          $content: this.$element.find( selectors.content ).first(),
-   //       };
-   //    }
-
-   //    bindEvents() {
-   //       this.elements.$toggle.on('click', this.toggleClick.bind(this));
-   //       // $(document).on('click', this.documentClick.bind(this));
-   //       $(window).on('resize', this.windowResize.bind(this));
-   //    }
-
-   //    toggleClick(e) {
-   //       if(this.elements.$toggle.hasClass('active')) {
-   //          this.hideContent();
-   //       } else {
-   //          this.elements.$content.show();
-   //          this.showContent();
-   //       }
-   //    }
-
-   //    documentClick(e) {
-   //       // if(typeof e === 'undefined') return;
-   //       // console.log(e);
-   //       if (!this.$element.is(e.target) && this.$element.has(e.target).length === 0) {
-   //          this.hideContent();
-            
-   //       }
-   //    }
-
-   //    showContent() {
-   //       this.elements.$toggle.addClass('active');
-   //       this.elements.$content.addClass('active');
-   //       if(this.getElementSettings('content_width_type') == 'full') {
-   //          this.makeContentFullwidth();
-   //       }
-   //       $(document).on('click.'+this.getID(), this.documentClick.bind(this));
-   //    }
-
-   //    windowResize() {
-   //       if(this.getElementSettings('content_width_type') == 'full' && this.elements.$content.hasClass('active')) {
-   //          this.makeContentFullwidth();
-   //       }
-   //    }
-
-   //    hideContent() {
-   //       this.elements.$toggle.removeClass('active');
-   //       this.elements.$content.removeClass('active');
-   //       $(document).off('click.'+this.getID());
-   //    }
-
-   //    onInit() {
-   //       super.onInit();
-   //       if(this.isEdit) {
-   //          this.addEditHandler();
-   //       }
-   //       this.elements.$content.find('img[loading="lazy"]').removeAttr('loading');
-   //    }
-
-   //    makeContentFullwidth() {
-   //       this.elements.$content.css({
-   //          'left': '',
-   //          'width': ''
-   //       });
-   //       this.elements.$content.css({
-   //          'left': - this.elements.$content.offset().left,
-   //          'width': $(window).width()
-   //       });
-   //    }
-
-
-   // }
-   // $( window ).on( 'elementor/frontend/init', () => {
-   //    const addHandler = ( $element ) => {
-   //      elementorFrontend.elementsHandler.addHandler( MAELangPopup, {
-   //        $element,
-   //      } );
-   //    };
-   //    elementorFrontend.hooks.addAction( 'frontend/element_ready/mae_lang_dropdown.default', addHandler );
-   // } );
-   
-
-
-
-
-   // class MAETemplatePopup extends elementorModules.frontend.handlers.Base {
-
-   //    getDefaultSettings() {
-   //       console.log('getDefaultSettings');
-   //       return {
-   //          selectors: {
-   //             toggle: '.mae-toggle-button',
-   //          },
-   //       };
-   //    }
-
-   //    getDefaultElements() {
-   //       console.log('getDefaultElements');
-   //       var selectors = this.getSettings( 'selectors' );
-   //       return {
-   //          $toggle: this.$element.find( selectors.toggle ),
-   //       };
-   //    }
-
-   //    bindEvents() {
-   //       console.log('bindEvents');
-   //       this.elements.$toggle.on('click', this.toggleClick.bind(this));
-   //    }
-
-   //    toggleClick() {
-   //       console.log('toggleClick');
-   //    }
-
-   //    onInit() {
-   //       super.onInit();
-   //       console.log('onInit');
-   //       if(this.isEdit) {
-   //          this.addEditHandler();
-   //       }
-   //       this.elements.$content.find('img[loading="lazy"]').removeAttr('loading');
-   //    }
-
-   //    onElementChange(){
-   //       console.log('onElementChange');
-   //    }
-
-   // }
-   // $( window ).on( 'elementor/frontend/init', () => {
-   //    const addHandler = ( $element ) => {
-   //      elementorFrontend.elementsHandler.addHandler( MAETemplatePopup, {
-   //        $element,
-   //      } );
-   //    };
-   //    elementorFrontend.hooks.addAction( 'frontend/element_ready/mae_template_popup.default', addHandler );
-   // } );
 
 
 })(jQuery);

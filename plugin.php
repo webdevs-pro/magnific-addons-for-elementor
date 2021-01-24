@@ -1,7 +1,7 @@
 <?php
 namespace MagnificAddons;
 
-use Elementor\Core\Settings\Manager as SettingsManager;
+use \Elementor\Core\Settings\Manager as SettingsManager;
 use ElementorPro\Modules\QueryControl\Controls\Group_Control_Query;
 
 
@@ -369,7 +369,7 @@ class Cart_Dropdown {
 			)),
 			'cart_hash' => apply_filters( 'woocommerce_add_to_cart_hash', WC()->cart->get_cart_for_session() ? md5( json_encode( WC()->cart->get_cart_for_session() ) ) : '', WC()->cart->get_cart_for_session() )
 		);
-		error_log( "data\n" . print_r($data, true) . "\n" );
+		// error_log( "data\n" . print_r($data, true) . "\n" );
 		wp_send_json( $data );
 		die();
 	}
@@ -390,46 +390,14 @@ class Cart_Dropdown {
 	}
 }
 
-// LANG DROPDOWN WIDGET
-if (isset(get_option('mae_settings')['enabled_widgets']['enable_lang_dropdown']) && get_option('mae_settings')['enabled_widgets']['enable_lang_dropdown'] == '1') {
-	new Lang_Dropdown();
-}
-class Lang_Dropdown {
 
-	public function __construct() {
-		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
-		add_filter( 'wpml_elementor_widgets_to_translate', [ $this, 'wpml_widgets_to_translate_filter' ] );
-	}
-	public function widget_scripts() {
-		wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], MAE_VERSION, true);
-		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
-		wp_enqueue_style('mae_widgets-styles');
-	}
-	private function include_widgets_files() {
-		require_once( MAE_PATH . '/widgets/lang-dropdown.php' );
-
-	}
-	public function register_widgets() {
-		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Aew_Lang_Popup_Widget() );
-	}
-	public function wpml_widgets_to_translate_filter($widgets) {
-		$widgets[ 'mae_lang_dropdown' ] = [
-			'conditions' => [ 
-				'widgetType' => 'mae_lang_dropdown' 
-			],
-			'fields'     => [
-				[
-					'field'       => 'title',
-					'type'        => __( 'MAE Lang Dropdown: Title', 'magnific-addons' ),
-					'editor_type' => 'LINE'
-				]
-			],
-		];
-		return $widgets;
-	}
+// TODO: Add settings
+if(function_exists('icl_get_languages')) {
+	require_once( MAE_PATH . '/inc/dynamic-tags/wpml.php' );
 }
+
+
+
 // add_action( 'elementor/frontend/widget/before_render', function ( \Elementor\Element_Base $widget ) {
 // 	if ('mae_template_popup' === $widget->get_name()) {
 // 		$settings = $widget->get_active_settings();
@@ -512,7 +480,7 @@ class Lang_Dropdown {
 
 // enqueue editor js
 add_action( 'elementor/editor/after_enqueue_scripts', function() {
-	wp_enqueue_script( 'ae-editor', plugin_dir_url( __FILE__ ) . '/assets/js/.js' );
+	wp_enqueue_script( 'mae-editor', plugin_dir_url( __FILE__ ) . '/assets/js/magnific-addons.js' );
 
 	$plugin_settings = array(
 		'mae_plugin_url' => plugin_dir_url( __FILE__ ),
@@ -528,18 +496,18 @@ add_action( 'elementor/editor/after_enqueue_scripts', function() {
 		$plugin_settings['mae_textarea_popup_enabled'] = '1';
 	}
 
-	wp_localize_script('ae-editor', 'MagnificAddons', $plugin_settings);
+	wp_localize_script('mae-editor', 'MagnificAddons', $plugin_settings);
 });
 
 // enqueue frontend js
 add_action( 'elementor/frontend/after_enqueue_scripts', function() {
-	wp_enqueue_script( 'ae-editor-frontend', plugin_dir_url( __FILE__ ) . '/assets/js/-frontend.js', [ 'jquery' ], MAE_VERSION );
+	wp_enqueue_script( 'mae-editor-frontend', plugin_dir_url( __FILE__ ) . '/assets/js/magnific-addons-frontend.js', [ 'jquery' ], MAE_VERSION );
 	// wp_localize_script('frontend', 'MagnificAddonsFrontend', array(
 	// 	'mae_plugin_url' => plugin_dir_url( __FILE__ ),
   	// ));
 });
 add_action( 'elementor/preview/enqueue_scripts', function() {
-	wp_enqueue_style('-preview', plugin_dir_url( __FILE__ ) . '/assets/js/-preview.css', [], MAE_VERSION);
+	wp_enqueue_style('magnific-addons-preview-preview', plugin_dir_url( __FILE__ ) . '/assets/css/magnific-addons-preview.css', [], MAE_VERSION);
 });
 
 
@@ -555,14 +523,14 @@ add_action( 'elementor/editor/after_enqueue_styles', function() {
 		}
 		wp_enqueue_style(
 			'-dark-mode',
-			plugin_dir_url( __FILE__ ) . 'assets/css/-dark-mode.css',
+			plugin_dir_url( __FILE__ ) . 'assets/css/magnific-addons-dark-mode.css',
 			'',
 			'',
 			$ui_theme_media_queries
 		);
 	}
 	
-	wp_enqueue_style('magnific-addons', plugin_dir_url( __FILE__ ) . '/assets/css/.css', [], MAE_VERSION);
+	wp_enqueue_style('magnific-addons', plugin_dir_url( __FILE__ ) . '/assets/css/magnific-addons.css', [], MAE_VERSION);
 } );
 
 

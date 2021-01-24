@@ -6,10 +6,10 @@ defined('ABSPATH') || die();
 
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-use Elementor\Controls_Manager;
-use Elementor\Core\Responsive\Responsive;
-use Elementor\Core\DynamicTags\Dynamic_CSS;
-// use Elementor\Element_Column;
+use \Elementor\Controls_Manager;
+use \Elementor\Core\Responsive\Responsive;
+use \Elementor\Core\DynamicTags\Dynamic_CSS;
+// use \Elementor\Element_Column;
 
 class Aee_Responsive_Custom_CSS {
 

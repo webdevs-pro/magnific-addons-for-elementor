@@ -79,12 +79,12 @@ function mae_cv_user_controls( $repeater ) {
 */
 function mae_cv_user_compare($condition) {
 
-	error_log( "condition\n" . print_r($condition, true) . "\n" );
+	// error_log( "condition\n" . print_r($condition, true) . "\n" );
 
 
 
 	$user = wp_get_current_user();
-	error_log( "user\n" . print_r($user, true) . "\n" );
+	// error_log( "user\n" . print_r($user, true) . "\n" );
 
 
 

@@ -4,8 +4,8 @@ namespace MagnificAddons;
 
 defined('ABSPATH') || die();
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
-use Elementor\Controls_Manager;
-// use Elementor\Element_Column;
+use \Elementor\Controls_Manager;
+// use \Elementor\Element_Column;
 
 class Aee_Custom_HTML {
 

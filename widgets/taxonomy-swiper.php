@@ -1,13 +1,13 @@
 <?php
 namespace MagnificAddons;
 
-use Elementor\Widget_Base;
-use Elementor\Controls_Manager;
-use Elementor\Group_Control_Typography;
-// use Elementor\Group_Control_Border;
-use Elementor\Scheme_Typography;
-// use Elementor\Group_Control_Text_Shadow;
-// use Elementor\Group_Control_Box_Shadow;
+use \Elementor\Widget_Base;
+use \Elementor\Controls_Manager;
+use \Elementor\Group_Control_Typography;
+// use \Elementor\Group_Control_Border;
+use \Elementor\Core\Schemes\Typography;
+// use \Elementor\Group_Control_Text_Shadow;
+// use \Elementor\Group_Control_Box_Shadow;
 
 
 
@@ -272,7 +272,7 @@ class Aew_Taxonomy_Swiper_Widget extends Widget_Base {
 				[
 					'name' => 'mae_ts_typography',
 					'label' => __( 'Typography', 'magnific-addons' ),
-					'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+					'scheme' => \Elementor\Core\Schemes\Typography::TYPOGRAPHY_3,
                'selector' => '{{WRAPPER}} .mae_taxonomy_swiper_term_title',
                
 				]
