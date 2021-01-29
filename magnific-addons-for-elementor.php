@@ -71,9 +71,9 @@ final class Magnific_Addons {
 		// register web devs category
 		add_action( 'elementor/elements/categories_registered', function($elements_manager) {
 			$elements_manager->add_category(
-				'MAE-category',
+				'mae-widgets',
 				[
-					'title' => __( 'Web Devs Widgets', 'magnific-addons' ),
+					'title' => __( 'Magnific Widgets', 'magnific-addons' ),
 					'icon' => 'fa fa-plug',
 				]
 			);

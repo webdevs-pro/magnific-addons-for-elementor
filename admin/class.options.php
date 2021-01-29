@@ -8,7 +8,7 @@ class MAE_options_interface {
             
         $this->licence = new MAE_licence();
 
-        if (isset($_GET['page']) && ($_GET['page'] == 'ae-license'  ||  $_GET['page'] == 'ae-license')) {
+        if (isset($_GET['page']) && ($_GET['page'] == 'mae-license'  ||  $_GET['page'] == 'mae-license')) {
             add_action( 'init', array($this, 'options_update'), 1 );
         }
                 
@@ -31,20 +31,20 @@ class MAE_options_interface {
     function admin_menu() {
         if(!$this->licence->licence_key_verify()) {
             $hookID = add_submenu_page( 
-                'ae-options', 
+                'mae-options', 
                 'MAE Widgets License', 
                 'License', 
                 'manage_options', 
-                'ae-license', 
+                'mae-license', 
                 array($this, 'licence_form') 
             ); 
         } else {
             $hookID = add_submenu_page( 
-                'ae-options', 
+                'mae-options', 
                 'MAE Widgets License', 
                 'License', 
                 'manage_options', 
-                'ae-license', 
+                'mae-license', 
                 array($this, 'licence_deactivate_form') 
             );
         }
@@ -105,17 +105,17 @@ class MAE_options_interface {
 
         global $current_user;
         $user_id = $current_user->ID;
-        if (get_user_meta($user_id, 'ae-plugin-ignore-notice'))
+        if (get_user_meta($user_id, 'mae-plugin-ignore-notice'))
             return;
 
         $screen = get_current_screen();
             
-        if(isset($screen->id) && $screen->id == 'ae-widgets_page_ae-license')
+        if(isset($screen->id) && $screen->id == 'mae-widgets_page_mae-license')
             return;
         
         ?>
-        <div class="notice notice-error ae-nokey-notice is-dismissible">
-            <p><?php _e( "Magnific Addons for Elementor - Plugin upadates is inactive, please enter your", 'magnific-addons' ) ?> <a href="admin.php?page=ae-license"><?php _e( "Licence Key", 'magnific-addons' ) ?></a></p>
+        <div class="notice notice-error mae-nokey-notice is-dismissible">
+            <p><?php _e( "Magnific Addons for Elementor - Plugin upadates is inactive, please enter your", 'magnific-addons' ) ?> <a href="admin.php?page=mae-license"><?php _e( "Licence Key", 'magnific-addons' ) ?></a></p>
         </div>
         <script>
             (function($){

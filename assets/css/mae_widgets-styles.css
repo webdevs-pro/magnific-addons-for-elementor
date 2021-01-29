@@ -361,10 +361,16 @@ mae-toggle-button
    display: none;
    position: absolute;
    z-index: 20;
-   width: 100%;
+   /* width: 100%; */
    animation-fill-mode: forwards !important;
+   pointer-events: none;
 }
-
+.mae-toggle-content > * {
+   pointer-events: auto;
+}
+.mae-content-width-auto .mae-toggle-content > .elementor > .elementor-section-wrap > .elementor-section > .elementor-container {
+   width: 100vw;
+}
 .mae-content-align-left .mae-toggle-content {
    left: 0;
 }

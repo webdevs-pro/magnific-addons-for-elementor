@@ -31,7 +31,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 	}
 
 	public function get_categories() {
-		return [ 'ae-category' ];
+		return [ 'mae-widgets' ];
 	}
 
 	protected function switcher_styles() {
@@ -537,6 +537,8 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 						'custom' => __( 'Custom', 'magnific-addons' ),
 					],
 					'frontend_available' => true,
+					'prefix_class' => 'mae-content-width-',
+					'render_type' => 'template',
 				]
 			);		
 			$this->add_responsive_control(
@@ -613,7 +615,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'type' => \Elementor\Controls_Manager::COLOR,
 					'default' => '#fff',
 					'selectors' => [
-						'{{WRAPPER}} .mae-toggle-content .elementor' => 'background-color: {{VALUE}}',
+						'{{WRAPPER}} .mae-toggle-content > .elementor' => 'background-color: {{VALUE}}',
 					],
 				]
 			);
@@ -624,7 +626,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'type' => Controls_Manager::DIMENSIONS,
 					'size_units' => [ 'px' ],
 					'selectors' => [
-						'{{WRAPPER}} .mae-toggle-content .elementor' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+						'{{WRAPPER}} .mae-toggle-content > .elementor' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 					],
 					'separator' => 'before',
 				]
@@ -636,7 +638,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'type' => Controls_Manager::DIMENSIONS,
 					'size_units' => [ 'px' ],
 					'selectors' => [
-						'{{WRAPPER}} .mae-toggle-content .elementor' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+						'{{WRAPPER}} .mae-toggle-content > .elementor' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 					],
 				]
 			);
@@ -645,7 +647,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 				[
 					'name' => 'content_border',
 					'label' => __( 'Border', 'magnific-addons' ),
-					'selector' => '{{WRAPPER}} .mae-toggle-content .elementor',
+					'selector' => '{{WRAPPER}} .mae-toggle-content > .elementor',
 					'separator' => 'before',
 					'fields_options' => [
 						'width' => [
@@ -664,7 +666,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'type' => Controls_Manager::DIMENSIONS,
 					'size_units' => [ 'px' ],
 					'selectors' => [
-						'{{WRAPPER}} .mae-toggle-content .elementor' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+						'{{WRAPPER}} .mae-toggle-content > .elementor' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 					],
 				]
 			);
@@ -673,7 +675,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 				[
 					'name' => 'content_box_shadow',
 					'label' => __( 'Box Shadow', 'magnific-addons' ),
-					'selector' => '{{WRAPPER}} .mae-toggle-content .elementor',
+					'selector' => '{{WRAPPER}} .mae-toggle-content > .elementor',
 				]
 			);
 

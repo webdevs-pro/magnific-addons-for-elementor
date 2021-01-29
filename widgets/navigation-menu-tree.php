@@ -29,7 +29,7 @@ class Aew_Navigation_Menu_Tree_Widget extends Widget_Base {
 	}
 
 	public function get_categories() {
-		return [ 'ae-category' ];
+		return [ 'mae-widgets' ];
 	}
 
 

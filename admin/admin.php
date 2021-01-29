@@ -31,7 +31,7 @@ $MAE = new MAE();
 
 
 add_filter('plugin_action_links_' . MAE_BASENAME , function ( $links ) {
-	$settings_link = '<a href="' . admin_url( 'admin.php?page=ae-options' ) . '">' . __('Settings') . '</a>';
+	$settings_link = '<a href="' . admin_url( 'admin.php?page=mae-options' ) . '">' . __('Settings') . '</a>';
 	array_unshift( $links, $settings_link );
 	return $links;
 });
@@ -39,16 +39,16 @@ add_filter('plugin_action_links_' . MAE_BASENAME , function ( $links ) {
 
 // add `check for updates` or `Activate license` links to plugin meta
 add_filter( 'plugin_row_meta', function ($links, $file) {
-	if ( $file === 'advanced-elementor-widgets/advanced-elementor-widgets.php' ) {
+	if ( $file === 'magnific-addons-for-elementor/magnific-addons-for-elementor.php' ) {
 		// add `view details` link
 		if (!isset(get_plugin_updates()[$file])) {
-			$links[] = '<a class="thickbox open-plugin-details-modal" href="' . add_query_arg( 'tab', 'plugin-information&plugin=advanced-elementor-widgets&TB_iframe=true&width=772&height=970', admin_url('plugin-install.php')) . '" title="' . __('View details', 'magnific-addons') . '" data-title="Magnific Addons for Elementor">' . __('View details', 'magnific-addons') . '</a>';
+			$links[] = '<a class="thickbox open-plugin-details-modal" href="' . add_query_arg( 'tab', 'plugin-information&plugin=magnific-addons-for-elementor&TB_iframe=true&width=772&height=970', admin_url('plugin-install.php')) . '" title="' . __('View details', 'magnific-addons') . '" data-title="Magnific Addons for Elementor">' . __('View details', 'magnific-addons') . '</a>';
 		}
 		// add `check for updates` / `buy license`
 		if (isset(get_site_option('mae_license')['key']) && get_site_option('mae_license')['key'] != '') {
 			$links[] = '<a href="' . add_query_arg( 'action', 'mae_check_updates', admin_url('plugins.php')) . '" title="' . __('Check for updates', 'magnific-addons') . '">' . __('Check for updates', 'magnific-addons') . '</a>';
 		} else {
-			$links[] = '<a href="' . admin_url("admin.php?page=ae-license") . '" title="' . __('Enter license', 'magnific-addons') . '">' . __('Activate license', 'magnific-addons') . '</a> to receive plugin updates';
+			$links[] = '<a href="' . admin_url("admin.php?page=mae-license") . '" title="' . __('Enter license', 'magnific-addons') . '">' . __('Activate license', 'magnific-addons') . '</a> to receive plugin updates';
 		}
 	}
 	return $links;
@@ -58,8 +58,8 @@ add_filter( 'plugin_row_meta', function ($links, $file) {
 // NO LICENSE UPDATE NOTICE
 $license_data = get_site_option('mae_license');
 if (!isset($license_data['key'])) {
-	add_action( 'in_plugin_update_message-advanced-elementor-widgets/advanced-elementor-widgets.php', function ( $plugin_data, $r ) {
-		echo '<br />' . sprintf( __('To enable updates, please enter your license key on the <a href="%s">License</a> page. If you don\'t have a licence key, please <a href="%s">buy license</a>.', 'magnific-addons'), admin_url('admin.php?page=ae-license'), 'https://plugins.magnificsoft.com/advanced-elementor-widgets/' );
+	add_action( 'in_plugin_update_message-magnific-addons-for-elementor/magnific-addons-for-elementor.php', function ( $plugin_data, $r ) {
+		echo '<br />' . sprintf( __('To enable updates, please enter your license key on the <a href="%s">License</a> page. If you don\'t have a licence key, please <a href="%s">buy license</a>.', 'magnific-addons'), admin_url('admin.php?page=mae-license'), 'https://plugins.magnificsoft.com/magnific-addons-for-elementor/' );
 	}  , 10, 2 );
 }
 
@@ -81,20 +81,20 @@ add_action( 'admin_init', function() {
 
 function mae_add_plugin_menu() {
 	add_menu_page (
-		'Advanced Elementor',	// page title 
-		'Advanced Elementor', // menu title
+		'Magnific Addons',	// page title 
+		'Magnific Addons', // menu title
 		'manage_options',	// capability
-		'ae-options',	// menu-slug
+		'mae-options',	// menu-slug
 		'mae_options',	// function that will render its output
 		'dashicons-star-filled', // link to the icon that will be displayed in the sidebar
 		99 // position of the menu option
 	);
 	add_submenu_page( 
-		'ae-options', 
+		'mae-options', 
 		'MAE Settings', 
 		'Settings', 
 		'manage_options', 
-		'ae-options', 
+		'mae-options', 
 		'mae_options'
 	); 
 
@@ -104,14 +104,14 @@ add_action('admin_menu', 'mae_add_plugin_menu');
 function mae_options() {
 		?>
 		<div class="wrap">
-			<h2><?php echo __('Advanced Elementor Settings', 'magnific-addons'); ?></h2>
+			<h2><?php echo __('Magnific Addons for Elementor Settings', 'magnific-addons'); ?></h2>
 			<?php settings_errors(); ?> 
 
 
 			<form method="post" action="options.php"> 
 			<?php
-				settings_fields( 'ae-main-settings-group' );
-				do_settings_sections( 'ae-options-main' );
+				settings_fields( 'mae-main-settings-group' );
+				do_settings_sections( 'mae-options-main' );
 				submit_button(); 
 			?> 
 			</form> 
@@ -124,101 +124,101 @@ function mae_options() {
 // MAIN PLUGIN SETTINGS
 function mae_initialize_main_options() {  
 	register_setting(  
-		'ae-main-settings-group',  
+		'mae-main-settings-group',  
 		'mae_settings'  
 	);
 	add_settings_section(  
-		'main_section', // ID used to identify this section and with which to register options  
-		'Widgets Settings', // Title to be displayed on the administration page  
-		'mae_main_section_callback', // Callback used to render the description of the section  
-		'ae-options-main' // Page on which to add this section of options  
+		'main_section',
+		'Widgets Settings',
+		'mae_main_section_callback',
+		'mae-options-main'
 	);
 
 	add_settings_field (   
-		'enabled_widgets',	// ID used to identify the field throughout the theme  
-		'Widgets',	// The label to the left of the option interface element  
-		'mae_enabled_widgets_callback',	// The name of the function responsible for rendering the option interface  
-		'ae-options-main', // The page on which this option will be displayed  
-		'main_section' // The name of the section to which this field belongs  
+		'enabled_widgets',	   
+		'Widgets',	   
+		'mae_enabled_widgets_callback',	   
+		'mae-options-main',    
+		'main_section'    
 	);
 
 	add_settings_field (   
-		'php_safe_mode',	// ID used to identify the field throughout the theme  
-		'Safe Mode',	// The label to the left of the option interface element  
-		'mae_php_safe_mode_callback',	// The name of the function responsible for rendering the option interface  
-		'ae-options-main', // The page on which this option will be displayed  
-		'main_section' // The name of the section to which this field belongs  
+		'php_safe_mode',	   
+		'Safe Mode',	   
+		'mae_php_safe_mode_callback',	   
+		'mae-options-main',    
+		'main_section'    
 	);
 
 	add_settings_field (   
-		'enabled_popups',	// ID used to identify the field throughout the theme  
-		'Popups',	// The label to the left of the option interface element  
-		'mae_enabled_popups_callback',	// The name of the function responsible for rendering the option interface  
-		'ae-options-main', // The page on which this option will be displayed  
-		'main_section' // The name of the section to which this field belongs  
+		'enabled_popups',	   
+		'Popups',	   
+		'mae_enabled_popups_callback',	   
+		'mae-options-main',    
+		'main_section'    
 	);
 
 	add_settings_field (   
-		'custom_html',	// ID used to identify the field throughout the theme  
-		'Custom HTML',	// The label to the left of the option interface element  
-		'mae_custom_html_callback',	// The name of the function responsible for rendering the option interface  
-		'ae-options-main', // The page on which this option will be displayed  
-		'main_section' // The name of the section to which this field belongs  
+		'custom_html',	   
+		'Custom HTML',	   
+		'mae_custom_html_callback',	   
+		'mae-options-main',    
+		'main_section'    
 	);
 
 	add_settings_field (   
-		'advanced_responsive',	// ID used to identify the field throughout the theme  
-		'Advanced Responsive',	// The label to the left of the option interface element  
-		'mae_advanced_responsive_callback',	// The name of the function responsible for rendering the option interface  
-		'ae-options-main', // The page on which this option will be displayed  
-		'main_section' // The name of the section to which this field belongs  
+		'advanced_responsive',	   
+		'Advanced Responsive',	   
+		'mae_advanced_responsive_callback',	   
+		'mae-options-main',    
+		'main_section'    
 	);
 
 	add_settings_field (   
-		'section_fix',	// ID used to identify the field throughout the theme  
-		'Section Columns Wrap',	// The label to the left of the option interface element  
-		'mae_section_fix_callback',	// The name of the function responsible for rendering the option interface  
-		'ae-options-main', // The page on which this option will be displayed  
-		'main_section' // The name of the section to which this field belongs  
+		'section_fix',	   
+		'Section Columns Wrap',	   
+		'mae_section_fix_callback',	   
+		'mae-options-main',    
+		'main_section'    
 	);
 
 	add_settings_field (   
-		'custom_column_width',	// ID used to identify the field throughout the theme  
-		'Custom Column Width',	// The label to the left of the option interface element  
-		'mae_custom_column_width_callback',	// The name of the function responsible for rendering the option interface  
-		'ae-options-main', // The page on which this option will be displayed  
-		'main_section' // The name of the section to which this field belongs  
+		'custom_column_width',	   
+		'Custom Column Width',	   
+		'mae_custom_column_width_callback',	   
+		'mae-options-main',    
+		'main_section'    
 	);
 
 	add_settings_field (   
-		'flex_order',	// ID used to identify the field throughout the theme  
-		'Flex Order',	// The label to the left of the option interface element  
-		'mae_flex_order_callback',	// The name of the function responsible for rendering the option interface  
-		'ae-options-main', // The page on which this option will be displayed  
-		'main_section' // The name of the section to which this field belongs  
+		'flex_order',	   
+		'Flex Order',	   
+		'mae_flex_order_callback',	   
+		'mae-options-main',    
+		'main_section'    
 	);
 
 	add_settings_field (   
-		'wrapper_link',	// ID used to identify the field throughout the theme  
-		'Wrapper Link',	// The label to the left of the option interface element  
-		'mae_wrapper_link_callback',	// The name of the function responsible for rendering the option interface  
-		'ae-options-main', // The page on which this option will be displayed  
-		'main_section' // The name of the section to which this field belongs  
+		'wrapper_link',	   
+		'Wrapper Link',	   
+		'mae_wrapper_link_callback',	   
+		'mae-options-main',    
+		'main_section'    
 	);
 
 	add_settings_field (   
-		'responsive_custom_css',	// ID used to identify the field throughout the theme  
-		'Responsive Custom CSS',	// The label to the left of the option interface element  
-		'mae_responsive_custom_css_callback',	// The name of the function responsible for rendering the option interface  
-		'ae-options-main', // The page on which this option will be displayed  
-		'main_section' // The name of the section to which this field belongs  
+		'responsive_custom_css',	   
+		'Responsive Custom CSS',	   
+		'mae_responsive_custom_css_callback',	   
+		'mae-options-main',    
+		'main_section'    
 	);
 	add_settings_field (   
-		'conditional_visibility',	// ID used to identify the field throughout the theme  
-		'Сonditional Visibility',	// The label to the left of the option interface element  
-		'mae_conditional_visibility_callback',	// The name of the function responsible for rendering the option interface  
-		'ae-options-main', // The page on which this option will be displayed  
-		'main_section' // The name of the section to which this field belongs  
+		'conditional_visibility',	   
+		'Сonditional Visibility',	   
+		'mae_conditional_visibility_callback',	   
+		'mae-options-main',    
+		'main_section'    
 	);
 
 

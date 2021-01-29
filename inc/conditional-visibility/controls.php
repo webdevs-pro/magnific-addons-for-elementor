@@ -9,19 +9,9 @@ use \Elementor\Controls_Manager;
 
 class Aee_Сonditional_Visibility {
 
-	private static $instance;
-
 	public $conditions;
 
-	public static function instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-
-	protected function __construct() {
+	public function __construct() {
 
 		/** 
 		 * 
@@ -37,6 +27,7 @@ class Aee_Сonditional_Visibility {
 			'meta_field' => __('Meta field', 'magnific-addons' ),
 			'post_info' => __('Post info', 'magnific-addons' ),
 			'user' => __('User', 'magnific-addons' ),
+			'mobile' => __('Device', 'magnific-addons' ),
 		];
 
 		// include conditions files

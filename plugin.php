@@ -4,6 +4,13 @@ namespace MagnificAddons;
 use \Elementor\Core\Settings\Manager as SettingsManager;
 use ElementorPro\Modules\QueryControl\Controls\Group_Control_Query;
 
+use Elementor\TemplateLibrary\Source_Local;
+use ElementorPro\Modules\ThemeBuilder\Documents\Loop;
+use ElementorPro\Plugin;
+use ElementorPro\Modules\ThemeBuilder\Documents\Theme_Document;
+use Elementor\Core\Documents_Manager;
+use ElementorPro\Modules\ThemeBuilder\Classes\Locations_Manager;
+
 
 
 // RAW PHP CODE PROTECTION 
@@ -643,7 +650,7 @@ if (isset(get_option('mae_settings')['responsive_custom_css']) && get_option('ma
 // element conditional visibility
 if (isset(get_option('mae_settings')['conditional_visibility']) && get_option('mae_settings')['conditional_visibility'] == '1') {
 	require_once( __DIR__ . '/inc/conditional-visibility/controls.php' );
-	Aee_Сonditional_Visibility::instance();
+	new Aee_Сonditional_Visibility();
 
 	// logic
 	require_once( __DIR__ . '/inc/conditional-visibility/compare.php' );
@@ -769,3 +776,148 @@ add_filter( 'elementor/query/query_args', function( $args, $widget ) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // this will work for single template condition
+// add_action( 'elementor/theme/register_conditions', function( $conditions_manager ) {
+// 	class Page_Template_Condition extends \ElementorPro\Modules\ThemeBuilder\Conditions\Condition_Base {
+// 		public static function get_type() {
+// 			return 'singular';
+// 		}
+
+// 		public static function get_priority() {
+// 			return 100;
+// 		}
+
+// 		public function get_name() {
+// 			return 'page_template';
+// 		}
+
+// 		public function get_label() {
+// 			return __( 'Page Template' );
+// 		}
+
+// 		public function check( $args ) {
+// 			return isset( $args['id'] ) && is_page_template( $args['id'] );
+// 		}
+
+// 		protected function _register_controls() {
+// 			$this->add_control(
+// 				'page_template',
+// 				[
+// 					'section' => 'settings',
+// 					'label' => __( 'Page Template' ),
+// 					'type' => \Elementor\Controls_Manager::SELECT,
+// 					'options' => array_flip( get_page_templates() ),
+// 				]
+// 			);
+// 		}
+// 	}
+
+// 	$conditions_manager->get_condition( 'singular' )->register_sub_condition( new Page_Template_Condition() );
+// }, 100 );
+
+
+
+
+
+
+
+
+add_action( 'elementor/theme/register_conditions', function( $conditions_manager ) {
+	class MAE_Mobile extends \ElementorPro\Modules\ThemeBuilder\Conditions\Condition_Base {
+		public static function get_type() {
+			return 'singular';
+		}
+		public static function get_priority() {
+			return 100;
+		}
+		public function get_name() {
+			return 'mobile';
+		}
+		public function get_label() {
+			return __( 'Mobile', 'elementor-pro' );
+		}
+		public function check( $args ) {
+			return wp_is_mobile();
+		}
+	}
+	$conditions_manager->get_condition('singular')->register_sub_condition( new MAE_Mobile() );
+ },100);
+
+ add_action( 'elementor/theme/register_conditions', function( $conditions_manager ) {
+	class MAE_Desktop extends \ElementorPro\Modules\ThemeBuilder\Conditions\Condition_Base {
+		public static function get_type() {
+			return 'singular';
+		}
+		public static function get_priority() {
+			return 20;
+		}
+		public function get_name() {
+			return 'desktop';
+		}
+		public function get_label() {
+			return __( 'Desktop', 'elementor-pro' );
+		}
+		public function check( $args ) {
+			return !wp_is_mobile();
+		}
+	}
+	$conditions_manager->get_condition('singular')->register_sub_condition( new MAE_Desktop() );
+ },100);
+
+
+
+add_action( 'elementor/theme/register_conditions', function( $conditions_manager ) {
+	class MAE_Device_Type  extends \ElementorPro\Modules\ThemeBuilder\Conditions\Condition_Base {
+		protected $sub_conditions = [];
+		public static function get_type() {
+			return 'device_type';
+		}
+		public function get_name() {
+			return 'device_type';
+		}
+		public static function get_priority() {
+			return 60;
+		}
+		public function get_label() {
+			return __( 'Device Type', 'ele-custom-skin' );
+		}
+		public function get_all_label() {
+			return __( 'All', 'ele-custom-skin' );
+		}
+		public function register_sub_conditions() {
+			$this->sub_conditions[] = 'desktop';
+			$this->sub_conditions[] = 'mobile';
+		}
+		public function check( $args ) {
+			return true;
+		}
+	}
+  	$conditions_manager->get_condition('general')->register_sub_condition( new MAE_Device_Type() );
+},100);

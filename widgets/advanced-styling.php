@@ -34,7 +34,7 @@ class Aew_Advanced_Styling_Widget extends \Elementor\Widget_Base {
 	}
 
 	public function get_categories() {
-		return [ 'ae-category' ];
+		return [ 'mae-widgets' ];
 	}
 
 	protected function _register_controls() {
