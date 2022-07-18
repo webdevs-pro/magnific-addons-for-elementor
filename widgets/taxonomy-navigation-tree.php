@@ -94,8 +94,6 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 				[
 					'label' => __( 'Parent Term', 'magnific-addons' ),
 					'type' => \Elementor\Controls_Manager::TEXT,
-					
-					'description' => __( 'Parent term ID', 'magnific-addons' ),
 				]
 			);
 			$this->add_control(
@@ -143,6 +141,27 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 				]
 			);
 			$this->add_control(
+				'mae_show_all',
+				[
+					'label' => __( 'Show All', 'magnific-addons' ),
+					'type' => \Elementor\Controls_Manager::SWITCHER,
+					'label_on' => __( 'Yes', 'magnific-addons' ),
+					'label_off' => __( 'No', 'magnific-addons' ),
+					'return_value' => '1',
+				]
+			);
+			$this->add_control(
+				'mae_show_all_title',
+				[
+					'label' => __( 'Show All Title', 'magnific-addons' ),
+					'type' => \Elementor\Controls_Manager::TEXT,
+					'default' => 'All',
+					'condition' => [
+						'mae_show_all' => '1',
+					]
+				]
+			);
+			$this->add_control(
 				'mae_taxonomy_unfold',
 				[
 					'label' => __( 'Unfold tree', 'magnific-addons' ),
@@ -178,6 +197,112 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 				]
 			);			
 		$this->end_controls_section(); // end main
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+		$this->start_controls_section(
+			'section_first_item',
+			[
+				'label' => __( 'Custom First Item', 'magnific-addons' ),
+				]
+			);
+			$this->add_control(
+				'mae_first_item',
+				[
+					'label' => __( 'Custom First Item', 'magnific-addons' ),
+					'type' => \Elementor\Controls_Manager::SWITCHER,
+					'label_on' => __( 'Yes', 'magnific-addons' ),
+					'label_off' => __( 'No', 'magnific-addons' ),
+					'return_value' => '1',
+				]
+			);
+			$this->add_control(
+				'mae_first_item_type',
+				[
+					'label' => __( 'Type', 'magnific-addons' ),
+					'type' => \Elementor\Controls_Manager::SELECT,
+					'default' => 'normal',
+					'options' => [
+						'normal' => __( 'Normal', 'magnific-addons' ),
+						'parent' => __( 'Parent', 'magnific-addons' ),
+					],
+					'condition' => [
+						'mae_first_item' => '1',
+					],
+					// 'prefix_class' => 'mae_unfold_',
+					// 'description' => __( 'Unfold to current item for single post will work only if post has ONE taxonomy term selected', 'magnific-addons' ),
+				]
+			);
+			$this->add_control(
+				'mae_first_item_title',
+				[
+					'label' => __( 'Title', 'plugin-domain' ),
+					'type' => \Elementor\Controls_Manager::TEXT,
+					'default' => __( 'Title', 'plugin-domain' ),
+					'dynamic'     => [
+						'active' => true,
+					],
+					'condition' => [
+						'mae_first_item' => '1',
+					],
+				]
+			);
+			$this->add_control(
+            'mae_first_item_link',
+            [
+					'label'       => __( 'Link', 'magnific-addons' ),
+					'type'        => Controls_Manager::URL,
+					'dynamic'     => [
+						'active' => true,
+					],
+					'placeholder' => 'https://site.com',
+					'condition' => [
+						'mae_first_item' => '1',
+					],
+            ]
+        );
+
+
+
+
+			
+		$this->end_controls_section(); // end main
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	// STYLE SECTION 
@@ -507,14 +632,26 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 				'taxonomy' => $settings['mae_taxonomy_name'],
 				'orderby' => $settings['mae_taxonomy_order_by'],
 				'order' => $settings['mae_taxonomy_order'],
-				'title_li' => '',
 				'echo' => false,
 				'hide_empty'  => $settings['mae_taxonomy_hide_empty'],
 				'show_option_none' => $settings['mae_taxonomy_fallback_message'],
 				'show_count' => $settings['mae_taxonomy_show_count'],
 				'exclude' => $settings['mae_taxonomy_exclude'],
 				'child_of' => $settings['mae_taxonomy_parent'],
+				'show_option_all' => $settings['mae_show_all_title'],
+				// 'title_li' => '',
+				// 'class' => 'test',
 			);
+
+			// custom parent item
+			if ($settings['mae_first_item_type'] == 'parent') {
+				$args['title_li'] = '<a href="' . $settings['mae_first_item_link']['url'] . '">' . $settings['mae_first_item_title'] . '</a>';
+			} else {
+				$args['title_li'] = '';
+			}
+
+
+
 
 			$html = wp_list_categories( $args );
 
@@ -528,7 +665,7 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 				$DOM->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
 				$uls = $DOM->getElementsByTagName('ul');
 
-				foreach($uls as $ul) {
+				foreach($uls as $index => $ul) {
 					
 					$parent = $ul->parentNode;
 					$firstChild = $parent->firstChild;
@@ -586,16 +723,28 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 					}
 
 
+
+
 					
 					$toggleSpan = $DOM->createDocumentFragment();
 				  
-					if ($settings['mae_taxonomy_unfold'] == 'all'  || (strpos($parent_li_classes, 'current-cat-ancestor') && $settings['mae_taxonomy_unfold'] == 'current') || $unfold_current_child == true) {
+					if (
+						$settings['mae_taxonomy_unfold'] == 'all'  
+						|| (strpos($parent_li_classes, 'current-cat-ancestor') && $settings['mae_taxonomy_unfold'] == 'current') 
+						|| $unfold_current_child == true
+						|| ($settings['mae_first_item_type'] == 'parent' && $index == 0)
+						) {
 						$toggleSpan->appendXML('<span class="sub_toggler opened"><i class="' . $settings['mae_taxonomy_icon'] . '"></i></span>');
 					} else {
 						$toggleSpan->appendXML('<span class="sub_toggler"><i class="' . $settings['mae_taxonomy_icon'] . '"></i></span>');
 					}
 
 					$parent->insertBefore($toggleSpan, $firstChild);
+
+
+
+
+
 
 				}
 
@@ -611,7 +760,17 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 					}
 				}
 
-				$html=$DOM->saveHTML();
+				if($settings['mae_first_item_type'] == 'normal') {
+					$custom_li = $DOM->createDocumentFragment();
+					$custom_li->appendXML('<li class="cat-item"><a href="' . $settings['mae_first_item_link']['url'] . '">' . $settings['mae_first_item_title'] . '</a></li>');
+					
+					$first_li = $DOM->firstChild;
+					$DOM->insertBefore($custom_li, $first_li);
+				}
+
+
+
+				$html = $DOM->saveHTML();
 
 			}
 
@@ -625,5 +784,3 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 	}
 
 }
-
-

@@ -92,6 +92,8 @@
             el: '.swiper-pagination',
             type: 'bullets',
          },
+         observer: true,
+         observeParents: true,
       }
 
       var MenuSwiper = new Swiper(swiper_selector, settings);
@@ -300,6 +302,10 @@
             };
          }
 
+         // INIT IN HIDDEN
+         settings.observer = true;
+         settings.observeParents = true;
+
          // custom settings
          if (received_settings.custom) {
             Object.assign(settings, eval('({' + received_settings.custom + '})'));
@@ -440,6 +446,8 @@
          // autoplay: {
          //    delay: 500,
          // },
+         observer: true,
+         observeParents: true,
          navigation: {
             nextEl: '.taxonomy-swiper-button-next',
             prevEl: '.taxonomy-swiper-button-prev',
@@ -659,6 +667,12 @@
                crossFade: received_settings.fade.crossfade,
             };
          }
+         
+         // INIT IN HIDDEN
+         settings.observer = true;
+         settings.observeParents = true;
+         
+         
 
 
          // custom settings
@@ -789,340 +803,28 @@
 
 
 
-/*
 
-   //
-   // POPUP TEMPLATE
-   //
-	var MAETemplatePopup = function( $scope, $ ) {
 
 
-   
-      
-      var el_id = $scope.attr('data-id');
-      
-      if(typeof window['pm_' + el_id + '_settings'] === 'undefined') return false;
-      
-      var settings = JSON.parse(window['pm_' + el_id + '_settings']);
-      
-      var $toggle = $($scope.find('.mae-toggle-button'));
-      var $content = $($scope.find('.mae-toggle-content'));
-      
-      if(settings.is_editor) {
-         addEditingHandler();
-      }
-      
-      // console.log(settings);
 
-      // prevent images lazy load in content
-      $content.find('img[loading="lazy"]').removeAttr('loading');
-      
 
-      $(document).click(function(e) {
-         if (!$scope.is(e.target) && $scope.has(e.target).length === 0) {
-            hideContent();
-         }
-      });
 
-      $toggle.off('click'); // fix for editor
-      $toggle.on('click', function(e) {
-         
-         $this = $(this);
-
-         if($this.hasClass('active')) {
-            hideContent();
-         } else {
-            $(document).trigger('click');
-            $content.show();
-            showContent();
-         }
-
-      });
-      
-
-      
-      $(window).on('resize', function(){
-         if($content.hasClass('active') && settings.width_type == 'full') {
-            setFullWidth();
-         }
-      });
-
-
-
-      function setFullWidth() {
-         $content.css({
-            'left': '',
-            'width': ''
-         });
-         var content_offset_left = $content.offset().left;
-         var window_width = $(window).width();
-         $content.css({
-            'left': -content_offset_left,
-            'width': window_width
-         });
-      }
-
-      function showContent() {
-         $toggle.addClass('active');
-         $content.addClass('active');
-         if(settings.width_type == 'full') {
-            setFullWidth();
-         }
-      }
-
-      function hideContent() {
-         $toggle.removeClass('active');
-         $content.removeClass('active');
-      }
-
-      function addEditingHandler() {
-         var elementor_document = $scope.find('.elementor');
-         var document_id = elementor_document.attr('data-elementor-id');
-         elementor_document.prepend('<div class="elementor-document-handle" style="z-index: 999999;"><i class="eicon-edit"></i>Edit template</div>');
-   
-         $scope.on('click', '.elementor-document-handle', function(){
-            window.elementorCommon.api.internal( 'panel/state-loading' );
-            window.elementorCommon.api.run( 'editor/documents/switch', {
-               id: document_id
-            } ).then( function() {
-               return window.elementorCommon.api.internal( 'panel/state-ready' );
-            } );
-         })
-      }
-
-   };
-
-	$( window ).on( 'elementor/frontend/init', function() {
-      elementorFrontend.hooks.addAction( 'frontend/element_ready/mae_template_popup.default', MAETemplatePopup );
-   } )
-   
-*/
-
-
-
-
-
-
-
-/*
-
-   //
-   // CART DROPDOWN
-   //
-	var MAECartDropdown = function( $scope, $ ) {
-
-      var el_id = $scope.attr('data-id');
-
-      if(typeof window['cd_' + el_id + '_settings'] === 'undefined') return false;
-
-      var settings = JSON.parse(window['cd_' + el_id + '_settings']);
-
-
-      var $toggle = $($scope.find('.mae-toggle-button'));
-      var $content = $($scope.find('.mae-toggle-content'));
-
-      // console.log(settings);
-
-      // prevent images lazy load in content
-      $content.find('img[loading="lazy"]').removeAttr('loading');
-
-
-      $(document).click(function(e) {
-         if (!$scope.is(e.target) && $scope.has(e.target).length === 0) {
-            hideContent();
-         }
-      });
-
-
-      $toggle.off('click'); // fix for editor
-      $toggle.on('click', function(e) {
-
-         $this = $(this);
-
-         if($this.hasClass('active')) {
-            hideContent();
-         } else {
-            $(document).trigger('click');
-            $content.show();
-            showContent();
-         }
-
-      });
-      
-
-
-
-      $(window).on('resize', function(){
-         if($content.hasClass('active') && settings.width_type == 'full') {
-            setFullWidth();
-         }
-      });
-
-
-
-
-      // Ajax delete product in the cart
-      $scope.on('click', '.elementor-menu-cart__product-remove.product-remove a', function (e) {
-         e.preventDefault();
-
-         var product_id = $(this).attr("data-product_id"),
-            cart_item_key = $(this).attr("data-cart_item_key"),
-            product_container = $(this).parents('.elementor-menu-cart__product');
-
-         product_container.css({
-            'pointer-events': 'none',
-            'opacity': '0.3'
-         });
-
-         $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            url: mae_ajax.ajax_url,
-            data: {
-                  action: "mae_cart_dropdown_product_remove",
-                  product_id: product_id,
-                  cart_item_key: cart_item_key
-            },
-            success: function(response) {
-                  if ( ! response || response.error )
-                     return;
-
-                  var fragments = response.fragments;
-
-                  // Replace fragments
-                  if ( fragments ) {
-                     $.each( fragments, function( key, value ) {
-                        $( key ).replaceWith( value );
-                     });
-                  }
-
-                  $('.add_to_cart_button.added[data-product_id="'+product_id+'"]').removeClass('added');
-
-            }
-         });
-      });
-
-
-
-
-
-      function showContent() {
-         $toggle.addClass('active');
-         $content.addClass('active');
-         if(settings.width_type == 'full') {
-            setFullWidth();
-         }
-      }
-
-      function hideContent() {
-         $toggle.removeClass('active');
-         $content.removeClass('active');
-      }
-
-      function setFullWidth() {
-         $content.css({
-            'left': '',
-            'width': ''
-         });
-         var content_offset_left = $content.offset().left;
-         var window_width = $(window).width();
-         $content.css({
-            'left': -content_offset_left,
-            'width': window_width
-         });
-      }
-
-   };
-
-	$( window ).on( 'elementor/frontend/init', function() {
-      elementorFrontend.hooks.addAction( 'frontend/element_ready/mae_cart_dropdown.default', MAECartDropdown );
-   } )
-
-*/
-
-
-
-
-
-
-
-   class MAECartDropdown extends elementorModules.frontend.handlers.Base {
+   class MAEMiniCart extends elementorModules.frontend.handlers.Base {
 
       getDefaultSettings() {
          return {
             selectors: {
-               toggle: '.mae-toggle-button',
-               content: '.mae-toggle-content',
                removeItemBtn: '.elementor-menu-cart__product-remove.product-remove a'
             },
          };
       }
 
-      getDefaultElements() {
-         var selectors = this.getSettings('selectors');
-         return {
-            $toggle: this.$element.find( selectors.toggle ),
-            $content: this.$element.find( selectors.content ),
-         };
-      }
-
       bindEvents() {
-         this.elements.$toggle.on('click', this.toggleClick.bind(this));
-         this.$element.on('click', this.getSettings('selectors').removeItemBtn, this.removeProductFromCart.bind(this)),
-         // $(document).on('click', this.documentClick.bind(this));
-         $(window).on('resize', this.windowResize.bind(this));
+         this.$element.on('click', this.getSettings('selectors').removeItemBtn, this.removeProductFromCart.bind(this));
       }
-
-      toggleClick() {
-         if(this.elements.$toggle.hasClass('active')) {
-            this.hideContent();
-         } else {
-            this.elements.$content.show();
-            this.showContent();
-         }
-      }
-
-      documentClick(e) {
-         if (!this.$element.is(e.target) && this.$element.has(e.target).length === 0) {
-            this.hideContent();
-         }
-      }
-
-      showContent() {
-         this.elements.$toggle.addClass('active');
-         this.elements.$content.addClass('active');
-         if(this.getElementSettings('content_width_type') == 'full') {
-            this.makeContentFullwidth();
-         }
-         $(document).on('click.'+this.getID(), this.documentClick.bind(this));
-      }
-
-      windowResize() {
-         if(this.getElementSettings('content_width_type') == 'full' && this.elements.$content.hasClass('active')) {
-            this.makeContentFullwidth();
-         }
-      }
-
-      hideContent() {
-         this.elements.$toggle.removeClass('active');
-         this.elements.$content.removeClass('active');
-         $(document).off('click.'+this.getID());
-      }
-
+      
       onInit() {
          super.onInit();
-         this.elements.$content.find('img[loading="lazy"]').removeAttr('loading');
-      }
-
-      makeContentFullwidth() {
-         this.elements.$content.css({
-            'left': '',
-            'width': ''
-         });
-         this.elements.$content.css({
-            'left': - this.elements.$content.offset().left,
-            'width': $(window).width()
-         });
       }
 
       removeProductFromCart(e) {
@@ -1140,7 +842,7 @@
             dataType: 'json',
             url: mae_ajax.ajax_url,
             data: {
-               action: "mae_cart_dropdown_product_remove",
+               action: "mae_minicart_product_remove",
                product_id: product_id,
                cart_item_key: cart_item_key
             },
@@ -1162,11 +864,11 @@
    }
    $( window ).on( 'elementor/frontend/init', () => {
       const addHandler = ( $element ) => {
-        elementorFrontend.elementsHandler.addHandler( MAECartDropdown, {
+        elementorFrontend.elementsHandler.addHandler( MAEMiniCart, {
           $element,
         } );
       };
-      elementorFrontend.hooks.addAction( 'frontend/element_ready/mae_cart_dropdown.default', addHandler );
+      elementorFrontend.hooks.addAction( 'frontend/element_ready/mae_minicart.default', addHandler );
    } );
 
 
@@ -1238,11 +940,14 @@
          this.setContentWidth();
 
          $(document).on('click.'+this.getID(), this.documentClick.bind(this));
+
+         this.elements.$content.trigger('mae_content_visible'); // add event for elements inside
       }
 
       windowResize() {
          if(this.elements.$content.hasClass('active')) {
             this.setContentWidth();
+            this.check_bounding();
          }
       }
 
@@ -1250,6 +955,8 @@
          this.elements.$toggle.removeClass('active');
          this.elements.$content.removeClass('active');
          $(document).off('click.'+this.getID());
+         this.elements.$content.trigger('mae_content_hidden'); // add event for elements inside
+
       }
 
       onInit() {
@@ -1263,40 +970,68 @@
       setContentWidth() {
 
          var type = this.getElementSettings('content_width_type');
+         var window_width = $(window).width();
+         var breakpoint = this.getElementSettings('fullwidth_on');
 
-         switch (type) {
-            case 'full':
-               var container = $('body');
-               break;
-            case 'section':
-               var container = this.$element.closest('section').children('.elementor-container');
-               break;
-            case 'column':
-               var container = this.$element.closest('.elementor-column');
-               break;
-            case 'selector':
-               var selector = this.getElementSettings('content_width_selector');
-               var container = $(selector);
-               break;
-            default:
-               return;
+         if(breakpoint && window_width <= breakpoint) {
+            var container = $('body');
+            this.elements.$content.addClass('fullwidth-breakpoint');
+         } else {            
+            // clear styles
+            this.elements.$content.css({
+               'left': '',
+               'width': ''
+            });
+
+            this.elements.$content.removeClass('fullwidth-breakpoint');
+
+            switch (type) {
+               case 'full':
+                  var container = $('body');
+                  break;
+               case 'section':
+                  var container = this.$element.closest('section').children('.elementor-container');
+                  break;
+               case 'column':
+                  var container = this.$element.closest('.elementor-column');
+                  break;
+               case 'custom':
+                  return;
+               default:
+                  return;
+            }
          }
 
-         // clear styles
-         this.elements.$content.css({
-            'left': '',
-            'width': ''
-         });
+
 
          var toggle_left = this.elements.$toggle.offset().left;
          var container_left = $(container).offset().left;
          var left = toggle_left - container_left;
+         var container_width = $(container).width();
+
+         console.log(container_width);
 
          // set styles
          this.elements.$content.css({
             'left': - left,
-            'width': $(container).width()
+            'width': container_width
          });
+
+      }
+
+      check_bounding() {
+         var bounding = this.elements.$content[0].getBoundingClientRect();
+         
+         // console.log(bounding);
+         var overflow_right = (window.innerWidth || document.documentElement.clientWidth) - bounding.right;
+
+         if(overflow_right < 0) {
+            this.elements.$content.width(bounding.width - Math.abs(overflow_right));
+         } else {
+            // this.elements.$content.css({'width': ''});
+         }
+         
+
 
       }
 
@@ -1320,7 +1055,7 @@
         } );
       };
       elementorFrontend.hooks.addAction( 'frontend/element_ready/mae_template_popup.default', addHandler );
-      elementorFrontend.hooks.addAction( 'frontend/element_ready/mae_lang_dropdown.default', addHandler );
+      // elementorFrontend.hooks.addAction( 'frontend/element_ready/mae_lang_dropdown.default', addHandler );
 
    } );
 

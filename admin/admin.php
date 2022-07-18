@@ -235,7 +235,7 @@ function mae_initialize_main_options() {
 				'enable_taxonomy_swiper_widget'   => '1',
 				'enable_posts_swiper_widget'   => '1',
 				'enable_template_popup'   => '1',
-				'enable_cart_dropdown'   => '1',
+				'enable_minicart'   => '1',
 			),
 
 		);
@@ -290,8 +290,8 @@ function mae_initialize_main_options() {
 			$options['enabled_widgets']['enable_template_popup'] = '1';
 			$updated = true;
 		}
-		if (!isset($options['enabled_widgets']['enable_cart_dropdown'])) {
-			$options['enabled_widgets']['enable_cart_dropdown'] = '1';
+		if (!isset($options['enabled_widgets']['enable_minicart'])) {
+			$options['enabled_widgets']['enable_minicart'] = '1';
 			$updated = true;
 		}
 
@@ -436,9 +436,9 @@ function mae_enabled_widgets_callback($args) {
 		<br>
 
 		<label style="display: block">
-			<input type="hidden" name="mae_settings[enabled_widgets][enable_cart_dropdown]" value="0" />
-			<input type="checkbox" name="mae_settings[enabled_widgets][enable_cart_dropdown]" value="1"<?php checked(get_option('mae_settings')['enabled_widgets']['enable_cart_dropdown']); ?> />
-			<?php echo __( 'Cart Dropdown', 'magnific-addons' ); ?>
+			<input type="hidden" name="mae_settings[enabled_widgets][enable_minicart]" value="0" />
+			<input type="checkbox" name="mae_settings[enabled_widgets][enable_minicart]" value="1"<?php checked(get_option('mae_settings')['enabled_widgets']['enable_minicart']); ?> />
+			<?php echo __( 'Mini Cart', 'magnific-addons' ); ?>
 		</label>
 		<br>
 

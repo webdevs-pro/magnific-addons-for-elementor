@@ -96,9 +96,15 @@ function mae_cv_meta_field_compare($condition) {
 
 
 	// POST PAGE
-	if (is_object($queried_object) && get_class($queried_object) == 'WP_Post') {
+	if (is_object($queried_object)) {
 
-		$value = get_post_meta($queried_object->ID, $condition['mae_cv_item_meta_field_name'], $condition['mae_cv_item_meta_field_single'] == 'true' ? true : false);
+		if(get_class($queried_object) == 'WP_Post'){
+			$value = get_post_meta($queried_object->ID, $condition['mae_cv_item_meta_field_name'], $condition['mae_cv_item_meta_field_single'] == 'true' ? true : false);
+		} 
+		if(get_class($queried_object) == 'WP_Term') {
+			$value = get_term_meta($queried_object->term_id, $condition['mae_cv_item_meta_field_name'], $condition['mae_cv_item_meta_field_single'] == 'true' ? true : false);
+		}
+
 		// error_log( "value\n" . print_r($value, true) . "\n" );
 
 		// EQUAL

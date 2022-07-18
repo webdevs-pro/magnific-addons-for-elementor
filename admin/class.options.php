@@ -15,8 +15,8 @@ class MAE_options_interface {
         add_action( 'admin_menu', array($this, 'admin_menu'), 20);
                                 
         if(!$this->licence->licence_key_verify()) {
-            add_action('admin_notices', array($this, 'admin_no_key_notices'));
-            add_action('network_admin_notices', array($this, 'admin_no_key_notices'));
+            // add_action('admin_notices', array($this, 'admin_no_key_notices'));
+            // add_action('network_admin_notices', array($this, 'admin_no_key_notices'));
         }
 
         add_action( 'wp_ajax_mae_dismiss_nokey_notice', array($this,'mae_dismiss_nokey_notice'));

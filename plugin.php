@@ -255,6 +255,7 @@ class Template_Popup {
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widget' ] );
 		add_action( 'elementor/frontend/widget/before_render', [ $this, 'before_render' ] );
+		add_filter( 'woocommerce_add_to_cart_fragments', [ $this, 'ajax_update_counter' ] );
 		add_action( 'wp_footer', [ $this, 'print_templates_in_footer' ] );
 		add_filter( 'wpml_elementor_widgets_to_translate', [ $this, 'wpml_widgets_to_translate_filter' ] );
 	}
@@ -282,6 +283,14 @@ class Template_Popup {
 			}
 		}
 	}
+	public function ajax_update_counter($fragments) {
+		global $woocommerce;
+		$count = $woocommerce->cart->cart_contents_count;
+		ob_start(); ?>
+			<span class="cart-contents-count" data-counter="<?php echo $count ?>"><?php echo $count ?></span>
+		<?php $fragments['span.cart-contents-count'] = ob_get_clean();
+		return $fragments;
+	}
 	public function print_templates_in_footer() {
 		if(!empty($this->mae_offcanvas_templates)) {
 			foreach($this->mae_offcanvas_templates as $template) {
@@ -308,19 +317,18 @@ class Template_Popup {
 	}
 }
 
-// CART DROPDOWN WIDGET
-if (isset(get_option('mae_settings')['enabled_widgets']['enable_cart_dropdown']) && get_option('mae_settings')['enabled_widgets']['enable_cart_dropdown'] == '1') {
-	new Cart_Dropdown();
+// MINI CART WIDGET
+if (isset(get_option('mae_settings')['enabled_widgets']['enable_minicart']) && get_option('mae_settings')['enabled_widgets']['enable_minicart'] == '1') {
+	new MAE_MiniCart();
 }
-class Cart_Dropdown {
+class MAE_MiniCart {
 
 	public function __construct() {
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
-		add_filter( 'woocommerce_add_to_cart_fragments', [ $this, 'ajax_update_counter' ] );
 		add_filter( 'woocommerce_add_to_cart_fragments', [ $this, 'ajax_update_minicart' ] );
-		add_action( 'wp_ajax_mae_cart_dropdown_product_remove', [ $this, 'ajax_product_remove' ] );
-		add_action( 'wp_ajax_nopriv_mae_cart_dropdown_product_remove', [ $this, 'ajax_product_remove' ] );
+		add_action( 'wp_ajax_mae_minicart_product_remove', [ $this, 'ajax_product_remove' ] );
+		add_action( 'wp_ajax_nopriv_mae_minicart_product_remove', [ $this, 'ajax_product_remove' ] );
 		add_filter( 'wpml_elementor_widgets_to_translate', [ $this, 'wpml_widgets_to_translate_filter' ] );
 	}
 	public function widget_scripts() {
@@ -334,27 +342,19 @@ class Cart_Dropdown {
 		wp_enqueue_style('mae_widgets-styles');
 	}
 	private function include_widgets_files() {
-		require_once( MAE_PATH . '/widgets/cart-dropdown.php' );
+		require_once( MAE_PATH . '/widgets/minicart.php' );
 
 	}
 	public function register_widgets() {
 		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Aew_Cart_Popup_Widget() );
-	}
-	public function ajax_update_counter($fragments) {
-		global $woocommerce;
-		$count = $woocommerce->cart->cart_contents_count;
-		ob_start(); ?>
-			<span class="cart-contents-count" data-counter="<?php echo $count ?>"><?php echo $count ?></span>
-		<?php $fragments['span.cart-contents-count'] = ob_get_clean();
-		return $fragments;
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Mae_MiniCart_Widget() );
 	}
 	public function ajax_update_minicart($fragments) {
 		ob_start(); ?>
 			<div class="mini-cart">
 				<?php woocommerce_mini_cart(); ?>
 			</div>
-		<?php $fragments['.elementor-widget-mae_cart_dropdown .mae-toggle-content .mini-cart'] = ob_get_clean();
+		<?php $fragments['.elementor-widget-mae_minicart .mini-cart'] = ob_get_clean();
 		return $fragments;
 	}
 	public function ajax_product_remove() {
@@ -380,21 +380,21 @@ class Cart_Dropdown {
 		wp_send_json( $data );
 		die();
 	}
-	public function wpml_widgets_to_translate_filter($widgets) {
-		$widgets[ 'mae_cart_dropdown' ] = [
-			'conditions' => [ 
-				'widgetType' => 'mae_cart_dropdown'
-			],
-			'fields'     => [
-				[
-					'field'       => 'title',
-					'type'        => __( 'MAE Cart Dropdown: Title', 'magnific-addons' ),
-					'editor_type' => 'LINE'
-				]
-			],
-		];
-		return $widgets;
-	}
+	// public function wpml_widgets_to_translate_filter($widgets) {
+	// 	$widgets[ 'mae_minicart' ] = [
+	// 		'conditions' => [ 
+	// 			'widgetType' => 'mae_minicart'
+	// 		],
+	// 		'fields' => [
+	// 			[
+	// 				'field'       => 'title',
+	// 				'type'        => __( 'MAE Cart Dropdown: Title', 'magnific-addons' ),
+	// 				'editor_type' => 'LINE'
+	// 			]
+	// 		],
+	// 	];
+	// 	return $widgets;
+	// }
 }
 
 

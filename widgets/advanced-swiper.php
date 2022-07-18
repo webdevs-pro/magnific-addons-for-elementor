@@ -1086,9 +1086,9 @@ class Aew_Advanced_Swiper_Widget extends Widget_Base {
       if (!\Elementor\Plugin::$instance->editor->is_edit_mode()) {
 
          $custom_css .= 
-         $widget_settings['mae_as_target'] . ' {
-            opacity: 0;
-         }';
+         // $widget_settings['mae_as_target'] . ' .{
+         //    opacity: 0;
+         // }';
 
          $custom_css .= 
          $widget_settings['mae_as_target'] . ' .swiper-wrapper {

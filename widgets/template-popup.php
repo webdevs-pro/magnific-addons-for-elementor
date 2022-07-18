@@ -277,8 +277,8 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 						],
 					],
 					'selectors' => [
-						'{{WRAPPER}} .button-icon' => 'font-size: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}};',
-						'{{WRAPPER}} .button-icon svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+						'{{WRAPPER}} .button-icon' => 'font-size: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+						'{{WRAPPER}} .button-icon i' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
 					],
 				]
 			);
@@ -306,7 +306,8 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'label' => __( 'Icon Color', 'magnific-addons' ),
 					'type' => \Elementor\Controls_Manager::COLOR,
 					'selectors' => [
-						'{{WRAPPER}} .button-icon' => 'color: {{VALUE}}',
+						'{{WRAPPER}} .button-icon *' => 'color: {{VALUE}}',
+						'{{WRAPPER}} .button-icon *' => 'stroke: {{VALUE}}',
 					],
 				]
 			);
@@ -385,10 +386,10 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 				[
 					'label' => __( 'Background Color', 'magnific-addons' ),
 					'type' => \Elementor\Controls_Manager::COLOR,
-					'scheme' => [
-						'type' => \Elementor\Core\Schemes\Color::get_type(),
-						'value' => \Elementor\Core\Schemes\Color::COLOR_1,
-					],
+					// 'scheme' => [
+					// 	'type' => \Elementor\Core\Schemes\Color::get_type(),
+					// 	'value' => \Elementor\Core\Schemes\Color::COLOR_1,
+					// ],
 					'selectors' => [
 						'{{WRAPPER}} .mae-toggle-button' => 'background-color: {{VALUE}}',
 					],
@@ -507,6 +508,68 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 
 
 
+		// DROPDOWN SECTION
+		$this->start_controls_section(
+			'section_badge',
+			[
+				'label' => __( 'Badge', 'magnific-addons' ),
+				'tab' => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+			$this->add_control(
+				'show_badge',
+				[
+					'label' => __( 'Show Badge', 'magnific-addons' ),
+					'type' => \Elementor\Controls_Manager::SWITCHER,
+					'label_on' => __( 'Show', 'magnific-addons' ),
+					'label_off' => __( 'Hide', 'magnific-addons' ),
+					'return_value' => 'yes',
+				]
+			);
+			$this->add_control(
+				'badge_type',
+				[
+					'label' => __( 'Badge Type', 'magnific-addons' ),
+					'type' => \Elementor\Controls_Manager::SELECT,
+					'options' => [
+						'wc_cart'  => __( 'WooCommerce Cart', 'magnific-addons' ),
+					],
+					// 'frontend_available' => true,
+					'prefix_class' => 'mae-badge-type-',
+					// 'render_type' => 'template',
+					'condition' => [
+						'show_badge' => 'yes',
+					]
+				]
+			);	
+
+
+			$this->add_control(
+				'hide_empty_badge',
+				[
+					'label' => __( 'Hide Empty', 'magnific-addons' ),
+					'type' => \Elementor\Controls_Manager::SWITCHER,
+					'label_on' => __( 'Yes', 'magnific-addons' ),
+					'label_off' => __( 'No', 'magnific-addons' ),
+					'default' => 'yes',
+					'return_value' => 'hide',
+					'prefix_class' => 'empty-badge-',
+					'condition' => [
+						'show_badge' => 'yes',
+					]
+				]
+			);
+
+		$this->end_controls_section(); 
+
+
+
+
+
+
+
+
 
 
 
@@ -533,7 +596,6 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 						'full' => __( 'Page', 'magnific-addons' ),
 						'section' => __( 'Section', 'magnific-addons' ),
 						'column' => __( 'Column', 'magnific-addons' ),
-						'selector' => __( 'Custom Selector', 'magnific-addons' ),
 						'custom' => __( 'Custom', 'magnific-addons' ),
 					],
 					'frontend_available' => true,
@@ -579,12 +641,20 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'type' => \Elementor\Controls_Manager::TEXT,
 					'placeholder' => __( '.selector-class', 'magnific-addons' ),
 					'frontend_available' => true,
-
 					'condition' => [
 						'content_width_type' => ['selector']
 					]
 				]
 			);				
+			$this->add_control(
+				'fullwidth_on',
+				[
+					'label' => __( 'Make Fullwidth On', 'plugin-domain' ),
+					'type' => \Elementor\Controls_Manager::NUMBER,
+					'step' => 1,
+					'frontend_available' => true,
+				]
+			);	
 			$this->add_control(
 				'content_align',
 				[
@@ -631,6 +701,20 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'separator' => 'before',
 				]
 			);			
+			$this->add_responsive_control(
+				'fullwidth_content_margin',
+				[
+					'label' => __( 'Fullwidth Breakpoint Margin', 'magnific-addons' ),
+					'type' => Controls_Manager::DIMENSIONS,
+					'size_units' => [ 'px' ],
+					'selectors' => [
+						'{{WRAPPER}} .fullwidth-breakpoint.mae-toggle-content > .elementor' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					],
+					'condition' => [
+						'fullwidth_on!' => ''
+					]
+				]
+			);	
 			$this->add_responsive_control(
 				'content_padding',
 				[
@@ -697,6 +781,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 					'selectors' => [
 						'{{WRAPPER}} .mae-toggle-content' => 'animation: {{content_animation_duration.VALUE}}ms {{VALUE}}Out;',
 						'{{WRAPPER}} .mae-toggle-content.active' => 'animation: {{content_animation_duration.VALUE}}ms {{VALUE}}In;',
+						// '{{WRAPPER}} .mae-toggle-content' => 'transition: visibility {{content_animation_duration.VALUE}}ms;',
 					],
 				]
 			);	
@@ -780,8 +865,22 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 
 				<?php 
 					if($settings['icon_type'] == 'icon') {
-						\Elementor\Icons_Manager::render_icon( $settings['icon'], [ 'aria-hidden' => 'true', 'class' => 'normal' ] );
-						\Elementor\Icons_Manager::render_icon( $settings['active_icon'], [ 'aria-hidden' => 'true', 'class' => 'active' ] );
+						if($settings['icon']['library'] == 'svg') {
+							echo '<i class="normal">';
+								\Elementor\Icons_Manager::render_icon( $settings['icon'] );
+							echo '</i>';
+						} else {
+							\Elementor\Icons_Manager::render_icon( $settings['icon'], [ 'aria-hidden' => 'true', 'class' => 'normal' ] );
+						}
+
+						if($settings['active_icon']['library'] == 'svg') {
+							echo '<i class="active">';
+								\Elementor\Icons_Manager::render_icon( $settings['active_icon'] );
+							echo '</i>';
+
+						} else {
+							\Elementor\Icons_Manager::render_icon( $settings['active_icon'], [ 'aria-hidden' => 'true', 'class' => 'active' ] );
+						}
 					}
 					if($settings['icon_type'] == 'image') {
 						echo '<img src="' . $settings['image']['url'] . '" class="normal">';
@@ -794,6 +893,15 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 			<span class="button-title">
 				<?php echo $title; ?>
 			</span>
+
+			<?php if($settings['show_badge'] == 'yes') { ?>
+				<?php if($settings['badge_type'] == 'wc_cart' && class_exists('woocommerce')) { ?>
+					<?php $count = WC()->cart->cart_contents_count; ?>
+					<span class="cart-contents-count" data-counter="<?php echo esc_html($count); ?>">
+						<?php echo esc_html($count); ?>
+					</span> 
+				<?php } ?>
+			<?php } ?>
 
 		</div>
 
