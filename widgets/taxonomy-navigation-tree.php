@@ -38,7 +38,7 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 	// 	return [ 'advanced-elementor-widgets-style' ];
 	// }
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		// MAIN SECTION
 		$this->start_controls_section(

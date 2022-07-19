@@ -133,21 +133,13 @@ final class Magnific_Addons {
 new Magnific_Addons();
 
 
+// updates
+require 'plugin-update-checker/plugin-update-checker.php';
+$maeUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+	'https://github.com/webdevs-pro/magnific-addons-for-elementor',
+	__FILE__,
+	'magnific-addons-for-elementor'
+);
 
-
-
-
-
-
-
-function mae_search_replace_db($from, $to) {
-   global $wpdb;
-   $rows_affected = $wpdb->query(
-      "UPDATE {$wpdb->postmeta} " .
-      "SET `meta_value` = REPLACE(`meta_value`, '" . str_replace( '/', '\\\/', $from ) . "', '" . str_replace( '/', '\\\/', $to ) . "') " .
-      "WHERE `meta_key` = '_elementor_data' AND `meta_value` LIKE '[%' ;" ); // meta_value LIKE '[%' are json formatted
-   return $rows_affected;
-}
-function mae_clear_elementor_css_cache() {
-	error_log('run css clear cache');
-}
+//Set the branch that contains the stable release.
+$maeUpdateChecker->setBranch( 'main' );

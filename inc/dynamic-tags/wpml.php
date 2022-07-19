@@ -24,7 +24,7 @@ add_action( 'elementor/dynamic_tags/register_tags', function( $dynamic_tags ) {
 		public function get_title() {
 			return 'WPML Current Language';
 		}
-		protected function _register_controls() {
+		protected function register_controls() {
 			$this->add_control(
 				'param_name',
 				[
@@ -81,7 +81,7 @@ add_action( 'elementor/dynamic_tags/register_tags', function( $dynamic_tags ) {
 		public function get_title() {
 			return 'WPML Flag';
 		}
-		protected function _register_controls() {
+		protected function register_controls() {
 			$this->add_control(
 				'field_name',
 				[
