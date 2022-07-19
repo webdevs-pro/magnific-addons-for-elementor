@@ -142,57 +142,6 @@ class Aew_Raw_Php_Code_Skin {
 }
 
 
-// ADVANCED STYLING WIDGET
-if (isset(get_option('mae_settings')['enabled_widgets']['enable_advanced_styling_widget']) && get_option('mae_settings')['enabled_widgets']['enable_advanced_styling_widget'] == '1') {
-	new Advanced_Styling();
-}
-class Advanced_Styling {
-	public function widget_scripts() {
-		wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], MAE_VERSION, true);
-		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
-		wp_enqueue_style('mae_widgets-styles');
-	}
-	private function include_widgets_files() {
-		require_once( MAE_PATH . '/widgets/advanced-styling.php' );
-	}
-	public function register_widgets() {
-		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Aew_Advanced_Styling_Widget() );
-	}
-	public function __construct() {
-		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
-	}
-}
-
-
-
-// SECTION SLIDER WIDGET
-if (isset(get_option('mae_settings')['enabled_widgets']['enable_advanced_swiper_widget']) && get_option('mae_settings')['enabled_widgets']['enable_advanced_swiper_widget'] == '1') {
-	new Section_Slider();
-}
-class Section_Slider {
-	public function widget_scripts() {
-		wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], MAE_VERSION, true);
-		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
-		wp_enqueue_style('mae_widgets-styles');
-	}
-	private function include_widgets_files() {
-		require_once( MAE_PATH . '/inc/helpers/post-css.php' );
-		require_once( MAE_PATH . '/widgets/advanced-swiper.php' );
-	}
-	public function register_widgets() {
-		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Aew_Advanced_Swiper_Widget() );
-	}
-	public function __construct() {
-		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
-	}
-
-}
-
-
 
 // TAXONOMY SWIPER WIDGET
 if (isset(get_option('mae_settings')['enabled_widgets']['enable_taxonomy_swiper_widget']) && get_option('mae_settings')['enabled_widgets']['enable_taxonomy_swiper_widget'] == '1') {
@@ -217,32 +166,6 @@ class Taxonomy_Swiper {
 	}
 }
 
-
-
-// POSTS SWIPER WIDGET
-if (isset(get_option('mae_settings')['enabled_widgets']['enable_posts_swiper_widget']) && get_option('mae_settings')['enabled_widgets']['enable_posts_swiper_widget'] == '1') {
-	new Posts_Swiper();
-}
-class Posts_Swiper {
-	public function __construct() {
-		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
-	}
-	public function widget_scripts() {
-		wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], MAE_VERSION, true);
-		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
-		wp_enqueue_style('mae_widgets-styles');
-	}
-	private function include_widgets_files() {
-		require_once( MAE_PATH . '/inc/helpers/post-css.php' );
-		require_once( MAE_PATH . '/widgets/posts-swiper.php' );
-
-	}
-	public function register_widgets() {
-		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Aew_posts_Swiper_Widget() );
-	}
-}
 
 
 // TEMPLATE POPUP BUTTON
@@ -398,69 +321,6 @@ class MAE_MiniCart {
 }
 
 
-// TODO: Add settings
-if(function_exists('icl_get_languages')) {
-	require_once( MAE_PATH . '/inc/dynamic-tags/wpml.php' );
-}
-
-
-
-// add_action( 'elementor/frontend/widget/before_render', function ( \Elementor\Element_Base $widget ) {
-// 	if ('mae_template_popup' === $widget->get_name()) {
-// 		$settings = $widget->get_active_settings();
-// 		if($settings['off_canvas'] == 'yes') {
-// 			$GLOBALS['mae_offcanvas_templates'][] = [
-// 				'widget_id' => $widget->get_id(),
-// 				'template_id' => $settings['template_id'],
-// 				'with_css' => $settings['css_load']
-// 			];
-// 		}
-//   	}
-// }, 10);
-// add_action('wp_footer', function() {
-// 	// echo '<pre>' . print_r($GLOBALS['mae_offcanvas_templates'], true) . '</pre><br>';
-// 	if(isset($GLOBALS['mae_offcanvas_templates']) && !empty($GLOBALS['mae_offcanvas_templates'])) {
-// 		foreach($GLOBALS['mae_offcanvas_templates'] as $template) {
-// 			echo '<div id="mae-offcanvas-template-' . $template['widget_id'] . '" class="mae-offcanvas-template" data-widget-id="' .  $template['widget_id'] . '">';
-// 			echo \Elementor\Plugin::instance()->frontend->get_builder_content_for_display(  $template['template_id'], $template['with_css']);
-// 			echo '</div>';
-// 		}
-// 	}
-// }, 10);
-
-
-
-
-
-
-/* ADD CUSTOM RENDER ATTRIBUTES */
-// add_action( 'elementor/frontend/widget/before_render', function ( \Elementor\Element_Base $widget ) {
-// 	if ('mae_advanced_swiper' === $widget->get_name()) {
-// 		$widget->add_render_attribute( '_wrapper', [
-// 			'class' => 'my-custom-class2',
-// 			'data-my_data2' => 'my-data-value',
-// 		] );
-// 		echo $widget->get_id();
-// 		error_log('w');
-//   }
-// },10);
-
-// add_action( 'elementor/frontend/section/before_render', function ( \Elementor\Element_Base $section ) {
-// 	$section->add_render_attribute( '_wrapper', [
-// 		'class' => 'my-custom-class',
-// 		'data-my_data' => 'my-data-value',
-// 	] );
-// 	echo $section->get_id();
-// 	error_log('s');
-// },10);
-
-
-
-// add_filter('posts_results', function($posts,$query) {
-// 	echo '<pre>' . print_r($posts, true) . '</pre><br>';
-// 	echo '<pre>' . print_r($query, true) . '</pre><br>';
-// 	return $posts;
-// }, 10, 2);
 
 
 
@@ -472,39 +332,6 @@ if(function_exists('icl_get_languages')) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// enqueue editor js
-add_action( 'elementor/editor/after_enqueue_scripts', function() {
-	wp_enqueue_script( 'mae-editor', plugin_dir_url( __FILE__ ) . '/assets/js/magnific-addons.js' );
-
-	$plugin_settings = array(
-		'mae_plugin_url' => plugin_dir_url( __FILE__ ),
-	);
-
-	if (isset(get_option('mae_settings')['enabled_popups']['enable_wysiwyg_popup']) && get_option('mae_settings')['enabled_popups']['enable_wysiwyg_popup'] == '1') {
-		$plugin_settings['mae_text_popup_enabled'] = '1';
-	}
-	if (isset(get_option('mae_settings')['enabled_popups']['enable_code_popup']) && get_option('mae_settings')['enabled_popups']['enable_code_popup'] == '1') {
-		$plugin_settings['mae_code_popup_enabled'] = '1';
-	}
-	if (isset(get_option('mae_settings')['enabled_popups']['enable_textarea_popup']) && get_option('mae_settings')['enabled_popups']['enable_textarea_popup'] == '1') {
-		$plugin_settings['mae_textarea_popup_enabled'] = '1';
-	}
-
-	wp_localize_script('mae-editor', 'MagnificAddons', $plugin_settings);
-});
 
 // enqueue frontend js
 add_action( 'elementor/frontend/after_enqueue_scripts', function() {
@@ -513,68 +340,11 @@ add_action( 'elementor/frontend/after_enqueue_scripts', function() {
 	// 	'mae_plugin_url' => plugin_dir_url( __FILE__ ),
   	// ));
 });
-add_action( 'elementor/preview/enqueue_scripts', function() {
-	wp_enqueue_style('magnific-addons-preview-preview', plugin_dir_url( __FILE__ ) . '/assets/css/magnific-addons-preview.css', [], MAE_VERSION);
-});
-
-
-
-// enqueue css
-add_action( 'elementor/editor/after_enqueue_styles', function() {
-
-	$ui_theme = SettingsManager::get_settings_managers( 'editorPreferences' )->get_model()->get_settings( 'ui_theme' );
-	if ( 'light' !== $ui_theme ) {
-		$ui_theme_media_queries = 'all';
-		if ( 'auto' === $ui_theme ) {
-			$ui_theme_media_queries = '(prefers-color-scheme: dark)';
-		}
-		wp_enqueue_style(
-			'-dark-mode',
-			plugin_dir_url( __FILE__ ) . 'assets/css/magnific-addons-dark-mode.css',
-			'',
-			'',
-			$ui_theme_media_queries
-		);
-	}
-	
-	wp_enqueue_style('magnific-addons', plugin_dir_url( __FILE__ ) . '/assets/css/magnific-addons.css', [], MAE_VERSION);
-} );
 
 
 
 
-/*
-*
-* WIDGETS STATISTIC
-*
-*/
-// Add action to elementor/element/post/document_settings/after_section_end' hook
-add_action( 'elementor/element/wp-page/section_custom_css/after_section_end', 'MagnificAddons\page_sections_controls',10, 2);
-add_action( 'elementor/element/wp-post/section_custom_css/after_section_end', 'MagnificAddons\page_sections_controls',10, 2);
 
-function page_sections_controls( $page, $args ) {
-	// Header Options
-	$page->start_controls_section(
-		'widgets_statistic_section',
-		[
-			'label' => __( 'Widgets Statistic', 'molotov-form' ),
-			'tab' => \Elementor\Controls_Manager::TAB_ADVANCED,
-		]
-	);
-
-	$form_description = '<p>Hello></p>';
-
-	$page->add_control(
-		'widgets_statistic_section_description',
-		[
-			'raw' => __( $form_description, 'molotov-form' ),
-			'type' => \Elementor\Controls_Manager::RAW_HTML,
-		]
-	);
-
-	$page->end_controls_section();
-    
-}
 
 
 
@@ -589,31 +359,10 @@ if (isset(get_option('mae_settings')['custom_html']) && get_option('mae_settings
 	add_action('elementor/widget/print_template',  'MagnificAddons\mae_render_js_custom_html', 10, 3 );
 }
 
-// section fix
-if (isset(get_option('mae_settings')['section_fix']) && get_option('mae_settings')['section_fix'] == '1') {
-	require_once( __DIR__ . '/inc/section-fix.php' );
-	Aee_Columns_Alignment_Fix_For_Elementor::instance();
-}
-
-
 // column custom width
 if (isset(get_option('mae_settings')['custom_column_width']) && get_option('mae_settings')['custom_column_width'] == '1') {
 	require_once( __DIR__ . '/inc/column-cusom-width.php' );
 	Aee_Columns_Custom_Width_For_Elementor::instance();
-}
-
-
-// flex order
-if (isset(get_option('mae_settings')['flex_order']) && get_option('mae_settings')['flex_order'] == '1') {
-	require_once( __DIR__ . '/inc/flex-order.php' );
-	Aee_Flex_Order::instance();
-}
-
-
-// wrapper link
-if (isset(get_option('mae_settings')['wrapper_link']) && get_option('mae_settings')['wrapper_link'] == '1') {
-	require_once( __DIR__ . '/inc/wrapper-link.php' );
-	Aee_Wrapper_Link::instance();
 }
 
 
@@ -826,7 +575,7 @@ add_filter( 'elementor/query/query_args', function( $args, $widget ) {
 // 			return isset( $args['id'] ) && is_page_template( $args['id'] );
 // 		}
 
-// 		protected function _register_controls() {
+// 		protected function register_controls() {
 // 			$this->add_control(
 // 				'page_template',
 // 				[

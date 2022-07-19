@@ -59,7 +59,7 @@ class Aew_Template_Popup_Widget extends Widget_Base {
 		] );
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		// MAIN SECTION
 		$this->start_controls_section(

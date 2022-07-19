@@ -39,7 +39,7 @@ class Mae_MiniCart_Widget extends Widget_Base {
 	// 	return [ 'advanced-elementor-widgets-style' ];
 	// }
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 
 		// TOGGLE SECTION

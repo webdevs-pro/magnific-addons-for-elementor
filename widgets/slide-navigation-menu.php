@@ -49,7 +49,7 @@ class Aew_Slide_Navigation_Menu_Widget extends Widget_Base {
 		return $options;
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		// MAIN SECTION
 		$this->start_controls_section(
