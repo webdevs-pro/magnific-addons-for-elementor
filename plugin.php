@@ -21,7 +21,7 @@ class Aew_Taxonomy_Navigation_Tree {
 		// wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), array( 'jquery', 'elementor-frontend' ), '', true);
 		wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], MAE_VERSION, true);
 
-		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
+		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ), [], MAE_VERSION );
 		wp_enqueue_style('mae_widgets-styles');
 	}
 	private function include_widgets_files() {
@@ -44,7 +44,7 @@ if (isset(get_option('mae_settings')['enabled_widgets']['enable_navigation_menu_
 class Aew_Navigation_Menu_Tree {
 	public function widget_scripts() {
 		wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], MAE_VERSION, true);
-		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
+		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ), [], MAE_VERSION );
 		wp_enqueue_style('mae_widgets-styles');
 	}
 	private function include_widgets_files() {
@@ -68,7 +68,7 @@ if (isset(get_option('mae_settings')['enabled_widgets']['enable_slide_navigation
 class Aew_Slide_Navigation_Menu {
 	public function widget_scripts() {
 		wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], MAE_VERSION, true);
-		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
+		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ), [], MAE_VERSION );
 		wp_enqueue_style('mae_widgets-styles');
 	}
 	private function include_widgets_files() {
@@ -93,7 +93,7 @@ if (isset(get_option('mae_settings')['enabled_widgets']['enable_raw_php_code_wid
 class Aew_Raw_Php_Code {
 	public function widget_scripts() {
 		wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], MAE_VERSION, true);
-		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
+		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ), [], MAE_VERSION );
 		wp_enqueue_style('mae_widgets-styles');
 	}
 	private function include_widgets_files() {
@@ -118,7 +118,7 @@ if (isset(get_option('mae_settings')['enabled_widgets']['enable_taxonomy_swiper_
 class Taxonomy_Swiper {
 	public function widget_scripts() {
 		wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], MAE_VERSION, true);
-		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
+		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ), [], MAE_VERSION );
 		wp_enqueue_style('mae_widgets-styles');
 	}
 	private function include_widgets_files() {
@@ -152,7 +152,7 @@ class Template_Popup {
 	}
 	public function widget_scripts() {
 		wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], MAE_VERSION, true);
-		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
+		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ), [], MAE_VERSION );
 		wp_enqueue_style('mae_widgets-styles');
 	}
 	private function include_widgets_files() {
@@ -229,7 +229,7 @@ class MAE_MiniCart {
 				'ajax_url' => admin_url( 'admin-ajax.php' ) 
 			)
 		);
-		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
+		wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ), [], MAE_VERSION );
 		wp_enqueue_style('mae_widgets-styles');
 	}
 	private function include_widgets_files() {
