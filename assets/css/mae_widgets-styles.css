@@ -2,7 +2,9 @@
 .mae_navigation_tree ul.menu {
    margin: 0;
 }
-
+.mae_navigation_tree {
+   padding-left: 0;
+}
 
 .mae_navigation_tree ul.children,
 .mae_navigation_tree ul.sub-menu {
@@ -44,17 +46,22 @@
 }
 
 .mae_navigation_tree li a {
-   /* margin-left: 1.3em; */
-   /* display: inline-block; */
+   color: inherit;
 }
 .mae_navigation_tree li .category-count {
    white-space: nowrap;
 }
 
+.mae_navigation_tree > li:first-child {
+   padding-top: 0 !important;
+}
+.mae_navigation_tree > li:last-child {
+   padding-bottom: 0 !important;
+}
 
 .mae_navigation_tree li ul {
-   margin-left: 0.45em;
-   padding-left: 0.5em;
+   /* margin-left: 0.45em;
+   padding-left: 0.5em; */
 }
 
 

@@ -352,7 +352,7 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 							'type' => Controls_Manager::COLOR,
 							'default' => '',
 							'selectors' => [
-								'{{WRAPPER}} .mae_navigation_tree .cat-item a' => 'color: {{VALUE}};',
+								'{{WRAPPER}} .mae_navigation_tree .cat-item, {{WRAPPER}} .mae_navigation_tree .cat-item-all' => 'color: {{VALUE}};',
 							],
 						]
 					);
@@ -371,7 +371,7 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 							'label' => __( 'Text Color', 'magnific-addons' ),
 							'type' => Controls_Manager::COLOR,
 							'selectors' => [
-								'{{WRAPPER}} .mae_navigation_tree .cat-item a:hover' => 'color: {{VALUE}};',
+								'{{WRAPPER}} .mae_navigation_tree .cat-item:hover' => 'color: {{VALUE}};',
 							],
 						]
 					);
@@ -383,7 +383,7 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 							'label_on' => __( 'Yes', 'magnific-addons' ),
 							'label_off' => __( 'No', 'magnific-addons' ),
 							'selectors' => [
-								'{{WRAPPER}} .mae_navigation_tree .cat-item a:hover' => 'text-decoration: underline'
+								'{{WRAPPER}} .mae_navigation_tree .cat-item:hover' => 'text-decoration: underline'
 							],
 						]
 					);
@@ -395,7 +395,7 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 							'label_on' => __( 'Yes', 'magnific-addons' ),
 							'label_off' => __( 'No', 'magnific-addons' ),
 							'selectors' => [
-								'{{WRAPPER}} .mae_navigation_tree .cat-item a:hover' => 'font-weight: bold'
+								'{{WRAPPER}} .mae_navigation_tree .cat-item:hover' => 'font-weight: bold'
 							],
 						]
 					);
@@ -414,7 +414,7 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 							'label' => __( 'Text Color', 'magnific-addons' ),
 							'type' => Controls_Manager::COLOR,
 							'selectors' => [
-								'{{WRAPPER}} .mae_navigation_tree li.current-cat > a' => 'color: {{VALUE}};',
+								'{{WRAPPER}} .mae_navigation_tree li.current-cat' => 'color: {{VALUE}};',
 							],
 						]
 					);
@@ -473,7 +473,7 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 					],
 					'size_units' => [ 'px', 'em' ],
 					'selectors' => [
-						'{{WRAPPER}} .mae_navigation_tree li a' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+						'{{WRAPPER}} .mae_navigation_tree li' => 'padding-top: calc( {{SIZE}}{{UNIT}} / 2 ); padding-bottom: calc( {{SIZE}}{{UNIT}} / 2 );',
 					],
 					'separator' => 'before',
 				]
