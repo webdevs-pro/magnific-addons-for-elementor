@@ -82,30 +82,12 @@ function mae_initialize_main_options() {
 		'main_section'    
 	);
 
-	add_settings_field (   
-		'custom_html',	   
-		'Custom HTML',	   
-		'mae_custom_html_callback',	   
-		'mae-options-main',    
-		'main_section'    
-	);
 
 
-	add_settings_field (   
-		'custom_column_width',	   
-		'Custom Column Width',	   
-		'mae_custom_column_width_callback',	   
-		'mae-options-main',    
-		'main_section'    
-	);
 
-	add_settings_field (   
-		'responsive_custom_css',	   
-		'Responsive Custom CSS',	   
-		'mae_responsive_custom_css_callback',	   
-		'mae-options-main',    
-		'main_section'    
-	);
+
+
+
 	add_settings_field (   
 		'conditional_visibility',	   
 		'Сonditional Visibility',	   
@@ -123,7 +105,6 @@ function mae_initialize_main_options() {
 				'enable_navigation_menu_tree_widget'   => '1',
 				'enable_slide_navigation_menu_widget'   => '1',
 				'enable_raw_php_code_widget'   => '1',
-				'enable_raw_php_code_skin'   => '1',
 				'enable_taxonomy_swiper_widget'   => '1',
 				'enable_template_popup'   => '1',
 				'enable_minicart'   => '1',
@@ -181,18 +162,8 @@ function mae_initialize_main_options() {
 		}	
 
 
-		if (!isset($options['custom_html'])) {
-			$options['custom_html'] = '1';
-			$updated = true;
-		}
-		if (!isset($options['custom_column_width'])) {
-			$options['custom_column_width'] = '1';
-			$updated = true;
-		}
-		if (!isset($options['responsive_custom_css'])) {
-			$options['responsive_custom_css'] = '1';
-			$updated = true;
-		}
+
+
 		if (!isset($options['conditional_visibility'])) {
 			$options['conditional_visibility'] = '1';
 			$updated = true;
@@ -291,38 +262,6 @@ function mae_php_safe_mode_callback($args) {
 
 
 
-
-function mae_custom_html_callback($args) {  
-	?>
-		<label style="display: block">
-			<input type="hidden" name="mae_settings[custom_html]]" value="0" />
-			<input type="checkbox" name="mae_settings[custom_html]]" value="1"<?php checked(get_option('mae_settings')['custom_html'], '1'); ?> />
-			<?php echo __( 'Custom HTML', 'magnific-addons' ); ?>
-		</label>
-		<br>
-	<?php
-}
-
-function mae_custom_column_width_callback($args) {  
-	?>
-		<label style="display: block">
-			<input type="hidden" name="mae_settings[custom_column_width]" value="0" />
-			<input type="checkbox" name="mae_settings[custom_column_width]" value="1"<?php checked(get_option('mae_settings')['custom_column_width'], '1'); ?> />
-			<?php echo __( 'Custom Column Width', 'magnific-addons' ); ?>
-		</label>
-		<br>
-	<?php
-}
-function mae_responsive_custom_css_callback($args) {  
-	?>
-		<label style="display: block">
-			<input type="hidden" name="mae_settings[responsive_custom_css]" value="0" />
-			<input type="checkbox" name="mae_settings[responsive_custom_css]" value="1"<?php checked(get_option('mae_settings')['responsive_custom_css'], '1'); ?> />
-			<?php echo __( 'Responsive Custom CSS', 'magnific-addons' ); ?>
-		</label>
-		<br>
-	<?php
-}
 function mae_conditional_visibility_callback($args) {  
 	?>
 		<label style="display: block">

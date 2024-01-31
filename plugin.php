@@ -1,16 +1,6 @@
 <?php
 namespace MagnificAddons;
 
-use \Elementor\Core\Settings\Manager as SettingsManager;
-use ElementorPro\Modules\QueryControl\Controls\Group_Control_Query;
-
-use Elementor\TemplateLibrary\Source_Local;
-use ElementorPro\Modules\ThemeBuilder\Documents\Loop;
-use ElementorPro\Plugin;
-use ElementorPro\Modules\ThemeBuilder\Documents\Theme_Document;
-use Elementor\Core\Documents_Manager;
-use ElementorPro\Modules\ThemeBuilder\Classes\Locations_Manager;
-
 
 
 // RAW PHP CODE PROTECTION 
@@ -39,7 +29,7 @@ class Aew_Taxonomy_Navigation_Tree {
 	}
 	public function register_widgets() {
 		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Aew_Taxonomy_Navigation_Tree_Widget() );
+		\Elementor\Plugin::instance()->widgets_manager->register( new Aew_Taxonomy_Navigation_Tree_Widget() );
 	}
 	public function __construct() {
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
@@ -62,7 +52,7 @@ class Aew_Navigation_Menu_Tree {
 	}
 	public function register_widgets() {
 		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Aew_Navigation_Menu_Tree_Widget() );
+		\Elementor\Plugin::instance()->widgets_manager->register( new Aew_Navigation_Menu_Tree_Widget() );
 	}
 	public function __construct() {
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
@@ -87,7 +77,7 @@ class Aew_Slide_Navigation_Menu {
 	}
 	public function register_widgets() {
 		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Aew_Slide_Navigation_Menu_Widget() );
+		\Elementor\Plugin::instance()->widgets_manager->register( new Mae_Slide_Navigation_Menu_Widget() );
 	}
 	public function __construct() {
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
@@ -111,29 +101,7 @@ class Aew_Raw_Php_Code {
 	}
 	public function register_widgets() {
 		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Aew_Raw_Php_Code_Widget() );
-	}
-	public function __construct() {
-		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
-	}
-}
-
-
-if (isset(get_option('mae_settings')['enabled_widgets']['enable_raw_php_code_skin']) && get_option('mae_settings')['enabled_widgets']['enable_raw_php_code_skin'] == '1') {
-	new Aew_Raw_Php_Code_Skin();
-}
-class Aew_Raw_Php_Code_Skin {
-	public function widget_scripts() {
-		// wp_register_script('mae_widgets-script', plugins_url( '/assets/js/mae_widgets-script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], MAE_VERSION, true);
-		// wp_register_style('mae_widgets-styles', plugins_url( '/assets/css/mae_widgets-styles.css', __FILE__ ));
-		// wp_enqueue_style('mae_widgets-styles');
-	}
-	private function include_widgets_files() {
-		require_once( MAE_PATH . '/widgets/raw_php_code_skin.php' );
-	}
-	public function register_widgets() {
-		$this->include_widgets_files();
+		\Elementor\Plugin::instance()->widgets_manager->register( new Aew_Raw_Php_Code_Widget() );
 	}
 	public function __construct() {
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
@@ -158,7 +126,7 @@ class Taxonomy_Swiper {
 	}
 	public function register_widgets() {
 		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Aew_Taxonomy_Swiper_Widget() );
+		\Elementor\Plugin::instance()->widgets_manager->register( new Aew_Taxonomy_Swiper_Widget() );
 	}
 	public function __construct() {
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
@@ -192,7 +160,7 @@ class Template_Popup {
 	}
 	public function register_widget() {
 		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Aew_Template_Popup_Widget() );
+		\Elementor\Plugin::instance()->widgets_manager->register( new Aew_Template_Popup_Widget() );
 	}
 	public function before_render(\Elementor\Element_Base $widget) {
 		if ('mae_template_popup' === $widget->get_name()) {
@@ -270,7 +238,7 @@ class MAE_MiniCart {
 	}
 	public function register_widgets() {
 		$this->include_widgets_files();
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Mae_MiniCart_Widget() );
+		\Elementor\Plugin::instance()->widgets_manager->register( new Mae_MiniCart_Widget() );
 	}
 	public function ajax_update_minicart($fragments) {
 		ob_start(); ?>
@@ -303,21 +271,6 @@ class MAE_MiniCart {
 		wp_send_json( $data );
 		die();
 	}
-	// public function wpml_widgets_to_translate_filter($widgets) {
-	// 	$widgets[ 'mae_minicart' ] = [
-	// 		'conditions' => [ 
-	// 			'widgetType' => 'mae_minicart'
-	// 		],
-	// 		'fields' => [
-	// 			[
-	// 				'field'       => 'title',
-	// 				'type'        => __( 'MAE Cart Dropdown: Title', 'magnific-addons' ),
-	// 				'editor_type' => 'LINE'
-	// 			]
-	// 		],
-	// 	];
-	// 	return $widgets;
-	// }
 }
 
 
@@ -348,54 +301,6 @@ add_action( 'elementor/frontend/after_enqueue_scripts', function() {
 
 
 
-
-// custom html
-if (isset(get_option('mae_settings')['custom_html']) && get_option('mae_settings')['custom_html'] == '1') {
-	require_once( __DIR__ . '/inc/custom-html/controls.php' );
-	Aee_Custom_HTML::instance();
-	
-	require_once( __DIR__ . '/inc/custom-html/render.php' );
-	add_action( 'elementor/widget/render_content', 'MagnificAddons\mae_render_custom_html', 10, 3 );
-	add_action('elementor/widget/print_template',  'MagnificAddons\mae_render_js_custom_html', 10, 3 );
-}
-
-// column custom width
-if (isset(get_option('mae_settings')['custom_column_width']) && get_option('mae_settings')['custom_column_width'] == '1') {
-	require_once( __DIR__ . '/inc/column-cusom-width.php' );
-	Aee_Columns_Custom_Width_For_Elementor::instance();
-}
-
-
-// responsive customm css
-if (isset(get_option('mae_settings')['responsive_custom_css']) && get_option('mae_settings')['responsive_custom_css'] == '1') {
-	require_once( __DIR__ . '/inc/responsive-custom-css.php' );
-	Aee_Responsive_Custom_CSS::instance();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // element conditional visibility
 if (isset(get_option('mae_settings')['conditional_visibility']) && get_option('mae_settings')['conditional_visibility'] == '1') {
 	require_once( __DIR__ . '/inc/conditional-visibility/controls.php' );
@@ -408,265 +313,3 @@ if (isset(get_option('mae_settings')['conditional_visibility']) && get_option('m
    add_filter( 'elementor/frontend/widget/should_render', 'MagnificAddons\mae_conditional_visibility_is_display', 10, 3);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-// allow to edit _elementor_data custom field
-add_filter('elementor/template_library/sources/local/register_post_type_args', function($args) {
-	array_push($args['supports'], 'custom-fields');
-	return $args;
-});
-add_filter( 'is_protected_meta', function( $protected, $meta_key, $meta_type ) {
-    $allowed = array( '_elementor_data' );
-    if( in_array( $meta_key, $allowed ) )
-        return false;
-    return $protected;
-}, 10, 3 );
-
-
-
-
-
-// TO DO add settings
-// ICONS-LIST TEXTAREA
-add_action( 'elementor/element/icon-list/section_icon/before_section_end', function( $widget, $args ) {
-	
-	$control_data = \Elementor\Plugin::instance()->controls_manager->get_control_from_stack( $widget->get_unique_name(), 'icon_list' );
-	if ( is_wp_error( $control_data ) ) {
-		return;
-	}
-
-	$control_data['fields']['text']['type'] = \Elementor\Controls_Manager::TEXTAREA;
-
-	$widget->update_control( 'icon_list', $control_data );
-
-},10 ,2 );
-
-
-
-
-
-
-// TO DO add settings
-add_action( 'elementor/element/posts/section_query/before_section_end', function( $widget, $args ) {
-
-	$widget->start_injection( [
-		'at' => 'after',
-		'of' => 'posts_ignore_sticky_posts',
-	] );
-	$widget->add_control(
-		'only_sticky_posts',
-		[
-			'label' => __( 'MAE Only Sticky Posts', 'magnific-addons' ),
-			'type' => \Elementor\Controls_Manager::SWITCHER,
-			'label_on' => __( 'On', 'magnific-addons' ),
-			'label_off' => __( 'Off', 'magnific-addons' ),
-			'return_value' => 'yes',
-			'default' => '',
-			'description' => __( 'Sticky-posts ordering is visible on frontend only.', 'magnific-addons' ),
-		]
-	);
-	$widget->end_injection();
-
-	$widget->add_control(
-		'enable_custom_query',
-		[
-			'label' => __( 'MAE Use Custom Query', 'magnific-addons' ),
-			'type' => \Elementor\Controls_Manager::SWITCHER,
-			'label_on' => __( 'On', 'magnific-addons' ),
-			'label_off' => __( 'Off', 'magnific-addons' ),
-			'return_value' => 'yes',
-			'default' => '',
-			'description' => __( 'This will override all previous query settings.', 'magnific-addons' ),
-			'separator' => 'before',
-		]
-	);
-	$widget->add_control(
-		'custom_query_params',
-		[
-			'label' => __( 'MAE Custom Query', 'magnific-addons' ),
-			'type' => \Elementor\Controls_Manager::TEXTAREA,
-			'rows' => 8,
-			'description' => __( 'Insert here WP_Query args in JSON format, you can use this <a href="https://crocoblock.com/freemium/tools/wp-query-generator/" target="blank">generator</a>', 'magnific-addons' ),
-			'condition' => [
-				'enable_custom_query' => 'yes'
-			],
-		]
-	);
-
-}, 10 , 2 );
-
-add_filter( 'elementor/query/query_args', function( $args, $widget ) {
-
-	// only sticky posts
-	if ($widget->get_settings('only_sticky_posts') == 'yes') {
-		$args['post__in'] = get_option('sticky_posts');
-	}
-
-	// custom query params
-	$custom_query_params = json_decode($widget->get_settings('custom_query_params'));
-	if ($widget->get_settings('enable_custom_query') == 'yes' && $custom_query_params && is_object($custom_query_params)) {
-		$args = $custom_query_params;
-	}
-
-	return $args;
-
-}, 10, 2);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // this will work for single template condition
-// add_action( 'elementor/theme/register_conditions', function( $conditions_manager ) {
-// 	class Page_Template_Condition extends \ElementorPro\Modules\ThemeBuilder\Conditions\Condition_Base {
-// 		public static function get_type() {
-// 			return 'singular';
-// 		}
-
-// 		public static function get_priority() {
-// 			return 100;
-// 		}
-
-// 		public function get_name() {
-// 			return 'page_template';
-// 		}
-
-// 		public function get_label() {
-// 			return __( 'Page Template' );
-// 		}
-
-// 		public function check( $args ) {
-// 			return isset( $args['id'] ) && is_page_template( $args['id'] );
-// 		}
-
-// 		protected function register_controls() {
-// 			$this->add_control(
-// 				'page_template',
-// 				[
-// 					'section' => 'settings',
-// 					'label' => __( 'Page Template' ),
-// 					'type' => \Elementor\Controls_Manager::SELECT,
-// 					'options' => array_flip( get_page_templates() ),
-// 				]
-// 			);
-// 		}
-// 	}
-
-// 	$conditions_manager->get_condition( 'singular' )->register_sub_condition( new Page_Template_Condition() );
-// }, 100 );
-
-
-
-
-
-
-
-
-add_action( 'elementor/theme/register_conditions', function( $conditions_manager ) {
-	class MAE_Mobile extends \ElementorPro\Modules\ThemeBuilder\Conditions\Condition_Base {
-		public static function get_type() {
-			return 'singular';
-		}
-		public static function get_priority() {
-			return 100;
-		}
-		public function get_name() {
-			return 'mobile';
-		}
-		public function get_label() {
-			return __( 'Mobile', 'elementor-pro' );
-		}
-		public function check( $args ) {
-			return wp_is_mobile();
-		}
-	}
-	$conditions_manager->get_condition('singular')->register_sub_condition( new MAE_Mobile() );
- },100);
-
- add_action( 'elementor/theme/register_conditions', function( $conditions_manager ) {
-	class MAE_Desktop extends \ElementorPro\Modules\ThemeBuilder\Conditions\Condition_Base {
-		public static function get_type() {
-			return 'singular';
-		}
-		public static function get_priority() {
-			return 20;
-		}
-		public function get_name() {
-			return 'desktop';
-		}
-		public function get_label() {
-			return __( 'Desktop', 'elementor-pro' );
-		}
-		public function check( $args ) {
-			return !wp_is_mobile();
-		}
-	}
-	$conditions_manager->get_condition('singular')->register_sub_condition( new MAE_Desktop() );
- },100);
-
-
-
-add_action( 'elementor/theme/register_conditions', function( $conditions_manager ) {
-	class MAE_Device_Type  extends \ElementorPro\Modules\ThemeBuilder\Conditions\Condition_Base {
-		protected $sub_conditions = [];
-		public static function get_type() {
-			return 'device_type';
-		}
-		public function get_name() {
-			return 'device_type';
-		}
-		public static function get_priority() {
-			return 60;
-		}
-		public function get_label() {
-			return __( 'Device Type', 'ele-custom-skin' );
-		}
-		public function get_all_label() {
-			return __( 'All', 'ele-custom-skin' );
-		}
-		public function register_sub_conditions() {
-			$this->sub_conditions[] = 'desktop';
-			$this->sub_conditions[] = 'mobile';
-		}
-		public function check( $args ) {
-			return true;
-		}
-	}
-  	$conditions_manager->get_condition('general')->register_sub_condition( new MAE_Device_Type() );
-},100);

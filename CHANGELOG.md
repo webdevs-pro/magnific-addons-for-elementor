@@ -2,6 +2,11 @@ Magnific Addons for Elementor
 =========================
 
 
+1.1
+-----
+- Fix for Taxonomy tree widget PHP notices
+- Slider menu widget works
+
 1.0
 -----
 - Release

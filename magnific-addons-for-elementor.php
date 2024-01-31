@@ -3,7 +3,7 @@
 * Plugin Name: Magnific Addons for Elementor
 * Description: This plugin is addon for Elementor Page Builder plugin with range of great features and widgets
 * Plugin URI: https://plugins.magnificsoft.com/magnific-addons/
-* Version: 1.0
+* Version: 1.1
 * Author: MagnificSoft
 * Author URI: https://plugins.magnificsoft.com/
 * License: GPL 3.0

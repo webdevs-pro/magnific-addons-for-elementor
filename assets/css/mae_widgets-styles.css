@@ -20,6 +20,7 @@
 .mae_navigation_tree li  {
    list-style-type: none;
    position: relative;
+   margin-left: 1.3em;
 }
 
 .mae_navigation_tree .sub_toggler {
@@ -29,6 +30,7 @@
    transition: all 300ms;
    width: 0;
    vertical-align: top;
+   transform: translateX(-1.3em);
 }
 
 .mae_navigation_tree .sub_toggler.opened i.eicon-plus-square-o:before {
@@ -42,9 +44,13 @@
 }
 
 .mae_navigation_tree li a {
-   margin-left: 1.3em;
-   display: inline-block;
+   /* margin-left: 1.3em; */
+   /* display: inline-block; */
 }
+.mae_navigation_tree li .category-count {
+   white-space: nowrap;
+}
+
 
 .mae_navigation_tree li ul {
    margin-left: 0.45em;
@@ -57,10 +63,190 @@
 
 
 /* SLIDE MENU */
-.mae-slide-menu ul {
-   list-style-type: none;
-   padding: 0;
+.mae_slide_menu_wrapper {
+   position: relative;
 }
+
+.mae_slide_menu {
+   display: flex;
+   flex-direction: column;
+   
+   overflow-y: auto;
+   overflow-x: hidden;
+
+   position: relative;
+   /* transform: rotate(0.0001deg); /* firefox transform animation jumping fix */
+   /* transform-style: preserve-3d; /* firefox transform animation jumping fix */
+   transform: translateZ(0); /* firefox transform animation jumping fix */
+}
+
+.mae_slide_menu ul  {
+   margin: 0;
+   display: flex;
+   flex-direction: column;
+   /* min-height: 100%; */
+   transition: transform 500ms;
+   width: 100%;
+}
+
+.mae_slide_menu li  {
+   list-style-type: none;
+   cursor: pointer;
+   -moz-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+   -webkit-tap-highlight-color: transparent;
+}
+
+.mae_slide_menu li a {
+   margin-left: 0;
+}
+.mae_slide_menu .sub_arrow {
+   margin-left: 0.2em;
+}
+
+.mae_slide_menu .back_arrow {
+   margin-left: -0.2em;
+   margin-right: 0.2em;
+}
+
+.mae_slide_menu ul {
+   position: absolute;
+   display: none;
+}
+.mae-menu-height-by-higest .mae_slide_menu ul.opened {
+   height: 100%;
+}
+
+.mae_slide_menu ul.opened {
+   display: flex;
+}
+
+/* prevent jumping*/
+.mae_slide_menu:not(.loaded) ul.menu {
+   position: static;
+}
+
+
+.mae_slide_menu ul.slide_in_right {
+   animation-name: slide_in_right;
+   animation-fill-mode: forwards;
+   pointer-events: none;
+}
+@keyframes slide_in_right {
+   0% {
+      transform: translateX(-100%);
+   }
+   100% {
+      transform: translateX(0);
+   }
+}
+.mae_slide_menu ul.slide_out_right {
+   animation: slide_out_right;
+   animation-fill-mode: forwards;
+   pointer-events: none;
+}
+@keyframes slide_out_right {
+   0% {
+      transform: translateX(0);
+   }
+   100% {
+      transform: translateX(100%);
+   }
+}
+
+.mae_slide_menu ul.slide_in_left {
+   animation: slide_in_left;
+   animation-fill-mode: forwards;
+   pointer-events: none;
+}
+@keyframes slide_in_left {
+   0% {
+      transform: translateX(100%);
+   }
+   100% {
+      transform: translateX(0);
+   }
+}
+.mae_slide_menu ul.slide_out_left {
+   animation: slide_out_left;
+   animation-fill-mode: forwards;
+   pointer-events: none;
+}
+@keyframes slide_out_left {
+   0% {
+      transform: translateX(0);
+   }
+   100% {
+      transform: translateX(-100%);
+   }
+}
+
+.mae_slide_menu li a span {
+   transition: inherit;
+}
+.mae_slide_menu li span i {
+   transition: inherit;
+}
+
+.mae-menu-scroll-custom .elementor-widget-container {
+   overflow: hidden;
+}
+
+
+
+
+
+.mae-menu-scroll-custom .mae_slide_menu {
+   overflow-y: scroll;
+   scrollbar-width: none; /* Firefox */
+   -ms-overflow-style: none;  /* IE 10+ */
+}
+.mae-menu-scroll-custom .mae_slide_menu::-webkit-scrollbar {
+   display: none;
+} 
+
+
+
+
+.mae-menu-scroll-custom .mae_custom_scrollbar {
+   position: absolute;
+   top: 0;
+   transform-origin: 0px 0px;
+   width: 100%;
+   height: 0px;
+   transform: rotate(90deg);
+   outline: none;
+   -webkit-appearance: none;
+   opacity: 0;
+   transition: opacity 200ms;
+}
+.mae-menu-scroll-custom.mae_scrollbar-left .mae_custom_scrollbar {
+   transform: rotate(90deg);
+}
+.mae-menu-scroll-custom.mae_scrollbar-right .mae_custom_scrollbar {
+   transform: translateX(100%) rotate(90deg);
+}
+
+.mae-menu-scroll-custom .mae_custom_scrollbar.mae_scrollbar_visible {
+   opacity: 1;
+   transition: opacity 300ms;
+}
+
+.mae-menu-scroll-custom .mae_custom_scrollbar::-webkit-slider-thumb {
+   -webkit-appearance: none;
+   appearance: none;
+   width: 40px;
+   cursor: pointer;
+ }
+
+ .mae-menu-scroll-custom .mae_custom_scrollbar::-moz-range-thumb {
+   width: 40px;
+   cursor: pointer;
+   border: none;
+ }
+
 
 
 

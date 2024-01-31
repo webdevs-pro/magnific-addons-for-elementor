@@ -73,6 +73,7 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 						'slug' => 'slug',
 						'count' => 'count',
 						'term_group' => 'term_group',
+						'menu_order' => 'menu_order',
 					],
 				]
 			);
@@ -624,8 +625,19 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 			
 			if (is_single() && $settings['mae_taxonomy_unfold'] == 'current') {
 				global $post;
-				$current_term_id = wp_get_post_terms($post->ID, $settings['mae_taxonomy_name'])[0]->term_id;
-				$current_term_ancestors = get_ancestors($current_term_id, $settings['mae_taxonomy_name']);
+				//fix start
+				$terms = wp_get_post_terms($post->ID, $settings['mae_taxonomy_name']);
+				// Sprawdź, czy tablica $terms ma elementy i czy pierwszy element nie jest błędem
+				if (!is_wp_error($terms) && !empty($terms)) {
+					$current_term_id = $terms[0]->term_id;
+					$current_term_ancestors = get_ancestors($current_term_id, $settings['mae_taxonomy_name']);
+				} else {
+					// Możesz obsłużyć błąd tutaj, jeśli $terms jest błędem lub jest puste
+					$current_term_id = null;
+					$current_term_ancestors = array();
+				}
+				//$current_term_id = wp_get_post_terms($post->ID, $settings['mae_taxonomy_name'])[0]->term_id;
+				//$current_term_ancestors = get_ancestors($current_term_id, $settings['mae_taxonomy_name']);
 			}
 
 			$args = array(
@@ -655,14 +667,17 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 
 			$html = wp_list_categories( $args );
 
-			$html = str_replace('</a> (', '</a> <span>(', $html);
-			$html = str_replace(')', ')</span>', $html);
+			$html = preg_replace('/<\/a>\s*\((\d+)\)/', '</a><span class="category-count"> ($1)</span>', $html);
+			
+
+
+
 			
 			if ($html) {
 
 				// DOM object to manipulate results of wp_list_categories()
 				$DOM = new DOMDocument();
-				$DOM->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+				$DOM->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8') );
 				$uls = $DOM->getElementsByTagName('ul');
 
 				foreach($uls as $index => $ul) {
@@ -684,37 +699,9 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 							$parent->setAttribute('class', $parent_li_classes);
 						}
 
-
-
-						// // current if sub level
-						// if ($ul_classes_match[1] == $current_term_ancestors[0]) {
-
-						// 	$lis = $ul->getElementsByTagName('li');
-						// 	foreach($lis as $li) {
-						// 		$li_classes = $li->getAttribute('class');	
-						// 		preg_match('#cat-item-([^\s]+)#', $li_classes, $li_classes_match);
-						// 		if ($li_classes_match[1] == $current_term_id) {	
-						// 			$li_classes = $li_classes . ' current-cat';
-						// 			$li->setAttribute('class', $li_classes);
-						// 		}
-						// 	}
-						// }
-
-						// // curent if top
-						// if ($ul_classes_match[1] == $current_term_id) {
-						// 	$li = $parent;
-						// 	$li_classes = $li->getAttribute('class');	
-						// 	$li_classes = $li_classes . ' current-cat';
-						// 	$li->setAttribute('class', $li_classes);
-						// }
-						
 					}
 					
 					
-
-					
-
-
 					// unfold current item child
 					if (strpos($parent_li_classes, 'current-cat') !== false && $settings['mae_taxonomy_unfold_child'] == '1') {
 						$unfold_current_child = true;
@@ -723,9 +710,6 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 					}
 
 
-
-
-					
 					$toggleSpan = $DOM->createDocumentFragment();
 				  
 					if (
@@ -740,11 +724,6 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 					}
 
 					$parent->insertBefore($toggleSpan, $firstChild);
-
-
-
-
-
 
 				}
 
