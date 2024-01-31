@@ -4,10 +4,7 @@ namespace MagnificAddons;
 use \Elementor\Widget_Base;
 use \Elementor\Controls_Manager;
 use \Elementor\Group_Control_Typography;
-use \Elementor\Group_Control_Border;
-use \Elementor\Core\Schemes\Typography;
-use \Elementor\Group_Control_Text_Shadow;
-use \Elementor\Group_Control_Box_Shadow;
+
 
 use DOMDocument;
 
@@ -325,7 +322,6 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 				[
 					'name' => 'mae_taxonomy_typography',
 					'label' => __( 'Normal font', 'magnific-addons' ),
-					'scheme' => \Elementor\Core\Schemes\Typography::TYPOGRAPHY_3,
 					'selector' => '{{WRAPPER}} .mae_navigation_tree li',
 				]
 			);
@@ -383,7 +379,7 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 							'label_on' => __( 'Yes', 'magnific-addons' ),
 							'label_off' => __( 'No', 'magnific-addons' ),
 							'selectors' => [
-								'{{WRAPPER}} .mae_navigation_tree .cat-item:hover' => 'text-decoration: underline'
+								'{{WRAPPER}} .mae_navigation_tree .cat-item:hover > a' => 'text-decoration: underline;'
 							],
 						]
 					);
@@ -395,7 +391,7 @@ class Aew_Taxonomy_Navigation_Tree_Widget extends Widget_Base {
 							'label_on' => __( 'Yes', 'magnific-addons' ),
 							'label_off' => __( 'No', 'magnific-addons' ),
 							'selectors' => [
-								'{{WRAPPER}} .mae_navigation_tree .cat-item:hover' => 'font-weight: bold'
+								'{{WRAPPER}} .mae_navigation_tree .cat-item:hover > a' => 'font-weight: bold'
 							],
 						]
 					);
