@@ -21,6 +21,9 @@ define('MAE_PATH', plugin_dir_path(__FILE__));
 define('MAE_URL', plugins_url('', __FILE__));
 define('MAE_BASENAME', plugin_basename(__FILE__));
 
+require_once ( MAE_PATH . 'inc/vendor/autoload.php' );
+
+
 if (is_admin()) {
 	include( plugin_dir_path( __FILE__ ) . 'admin/admin.php');
 }
@@ -133,13 +136,14 @@ final class Magnific_Addons {
 new Magnific_Addons();
 
 
-// updates
-require 'plugin-update-checker/plugin-update-checker.php';
-$maeUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+
+
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+$UpdateChecker = PucFactory::buildUpdateChecker(
 	'https://github.com/webdevs-pro/magnific-addons-for-elementor',
 	__FILE__,
 	'magnific-addons-for-elementor'
 );
 
 //Set the branch that contains the stable release.
-$maeUpdateChecker->setBranch( 'main' );
+$UpdateChecker->setBranch( 'main' );
